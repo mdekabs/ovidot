@@ -1,6 +1,7 @@
 import DBClient from "../storage/db.js";
 import NotificationService from "../util/notification.js";
 import bcrypt from "bcrypt";
+import nodemailer from "nodemailer";
 
 /**
  * Controller handling user-related endpoints.
@@ -48,7 +49,6 @@ class UserController {
       console.error("Error creating user:", error);
       return response.status(500).json({ error: "Internal Server Error" }).end();
     }
-  }
 
   /**
    * Fetches a user by their ID.
@@ -102,7 +102,7 @@ class UserController {
 
       const updatedUser = await this.dbClient.updateUser(userId, { email, username, password });
 
-      await this.notificationService.sendUpdateNotification(userId);
+      await this.notificationService.sendUpdateNotification(email);
 
       return response.status(200).json({ status: "Success", user: updatedUser }).end();
     } catch (error) {
