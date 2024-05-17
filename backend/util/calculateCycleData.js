@@ -42,3 +42,4 @@ class CycleCalculator {
     return dateRange;
   }
 }
+export default CycleCalculator;

@@ -1,5 +1,5 @@
 import DBClient from "../storage/db.js";
-import CycleCalculator from "../util/cycleCalculator.js";
+import CycleCalculator from "../util/calculateCycleData.js";
 import CycleParser from "../util/cycleParser.js";
 
 class CycleController {
@@ -36,3 +36,5 @@ class CycleController {
       return response.status(500).json({ error: "Internal Server Error" });
     }
   }
+}
+export default CycleController;
