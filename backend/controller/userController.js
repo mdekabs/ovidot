@@ -1,7 +1,6 @@
 import DBClient from "../storage/db.js";
 import NotificationService from "../util/notification.js";
 import bcrypt from "bcrypt";
-import nodemailer from "nodemailer";
 
 /**
  * Controller handling user-related endpoints.
@@ -25,7 +24,7 @@ class UserController {
   async postNew(request, response) {
     const { email, password, username } = request.body;
 
-    if (!email ||username ||password) {
+    if (!email || !password || !username) {
       return response.status(400).json({ error: "Missing required fields" }).end();
     }
 
@@ -49,6 +48,7 @@ class UserController {
       console.error("Error creating user:", error);
       return response.status(500).json({ error: "Internal Server Error" }).end();
     }
+  }
 
   /**
    * Fetches a user by their ID.
@@ -140,3 +140,6 @@ class UserController {
       return response.status(500).json({ error: "Internal Server Error" }).end();
     }
   }
+}
+
+export default UserController;
