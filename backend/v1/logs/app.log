@@ -333,3 +333,29 @@
 2024-05-23T17:54:27.736Z INFO: 2024 cache data deleted 
 2024-05-23T17:54:27.745Z INFO: POST /api/v1/auth/cycles/create 201 181ms 201
 2024-05-23T17:54:58.632Z INFO: GET /api/v1/auth/cycles/664f82d3c04bc9a17c656514 200 28ms 200
+2024-05-28T11:25:31.779Z INFO: Server is now running on port 5000 
+2024-05-28T11:25:47.886Z WARN: GET /api-docs/ 404 3ms 404
+2024-05-28T11:25:56.590Z INFO: GET /api/v1/swagger/ 200 3ms 200
+2024-05-28T11:25:56.624Z INFO: GET /api/v1/swagger/swagger-ui.css 304 2ms 304
+2024-05-28T11:25:56.630Z INFO: GET /api/v1/swagger/swagger-ui-init.js 304 0ms 304
+2024-05-28T11:25:56.632Z INFO: GET /api/v1/swagger/swagger-ui-bundle.js 304 5ms 304
+2024-05-28T11:25:56.634Z INFO: GET /api/v1/swagger/swagger-ui-standalone-preset.js 304 7ms 304
+2024-05-28T11:25:57.127Z INFO: GET /api/v1/swagger/favicon-32x32.png 200 4ms 200
+2024-05-28T11:26:01.775Z ERROR: MongoDB connection error: connect ECONNREFUSED 127.0.0.1:27017 
+2024-05-28T11:28:30.652Z INFO: Server is now running on port 5000 
+2024-05-28T11:28:42.009Z INFO: GET /api/v1/swagger/ 304 6ms 304
+2024-05-28T11:28:42.030Z INFO: GET /api/v1/swagger/swagger-ui.css 304 1ms 304
+2024-05-28T11:28:42.033Z INFO: GET /api/v1/swagger/swagger-ui-bundle.js 304 2ms 304
+2024-05-28T11:28:42.035Z INFO: GET /api/v1/swagger/swagger-ui-standalone-preset.js 304 2ms 304
+2024-05-28T11:28:42.038Z INFO: GET /api/v1/swagger/swagger-ui-init.js 304 0ms 304
+2024-05-28T11:28:42.200Z INFO: GET /api/v1/swagger/favicon-32x32.png 304 0ms 304
+2024-05-28T11:29:00.651Z ERROR: MongoDB connection error: connect ECONNREFUSED 127.0.0.1:27017 
+2024-05-28T11:29:49.807Z WARN: POST /login 404 0ms 404
+2024-05-28T11:31:10.865Z INFO: Server is now running on port 5000 
+2024-05-28T11:31:17.053Z WARN: POST /login 404 1ms 404
+2024-05-28T11:31:19.252Z WARN: POST /login 404 1ms 404
+2024-05-28T11:31:40.863Z ERROR: MongoDB connection error: connect ECONNREFUSED 127.0.0.1:27017 
+2024-05-28T11:41:02.554Z INFO: Server is now running on port 5000 
+2024-05-28T11:41:04.808Z INFO: MongoDB connected! 
+2024-05-28T11:41:17.828Z WARN: POST /login 404 2ms 404
+2024-05-28T11:41:43.122Z WARN: POST /api/v1/signup 404 408ms 404

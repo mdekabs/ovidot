@@ -205,3 +205,6 @@ ReferenceError: APP_PATH is not defined
     at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
     at async loadESM (node:internal/process/esm_loader:28:7)
     at async handleMainPromise (node:internal/modules/run_main:120:12) 
+2024-05-28T11:26:01.775Z ERROR: MongoDB connection error: connect ECONNREFUSED 127.0.0.1:27017 
+2024-05-28T11:29:00.651Z ERROR: MongoDB connection error: connect ECONNREFUSED 127.0.0.1:27017 
+2024-05-28T11:31:40.863Z ERROR: MongoDB connection error: connect ECONNREFUSED 127.0.0.1:27017 
