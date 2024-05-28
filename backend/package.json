@@ -1,24 +1,45 @@
 {
-  "name": "ovidot",
+  "name": "backend",
   "type": "module",
   "version": "1.0.0",
-  "description": "",
+  "description": "* NodeJs\r * Express\r * MongoDB",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon app.js",
+    "test": "mocha 'v1/tests/{admin,utility,routes}/*.js' --recursive --timeout 20000"
   },
-  "author": "mawoda ekabua",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "chai": "^4.3.10",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
+    "dotenv": "^16.3.1",
+    "dotenv-safe": "^8.2.0",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-jwt": "^8.4.1",
+    "express-useragent": "^1.0.15",
+    "express-validator": "^7.0.1",
     "express-winston": "^4.2.0",
-    "mongoose": "^8.3.5",
-    "nodemailer": "^6.9.13",
-    "redis": "^4.6.13",
+    "mocha": "^10.2.0",
+    "mongoose": "^7.6.3",
+    "nodemailer": "^6.9.5",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.2.2",
+    "redis": "^4.6.11",
+    "sinon": "^16.0.0",
+    "supertest": "^6.3.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-jsdoc-express": "^4.1.0",
+    "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.1",
-    "winston": "^3.13.0"
+    "winston": "^3.11.0",
+    "yaml": "^2.3.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.3",
+    "@babel/preset-env": "^7.23.3"
   }
 }

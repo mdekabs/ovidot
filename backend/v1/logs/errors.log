@@ -1,0 +1,207 @@
+2024-05-21T12:41:37.986Z ERROR: uncaughtException: ENOENT: no such file or directory, open './undefined'
+Error: ENOENT: no such file or directory, open './undefined'
+    at Object.openSync (node:fs:580:18)
+    at readFileSync (node:fs:459:35)
+    at file:///home/mdstorms/Ovidot/Ovidot/backend/app.js:106:12
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) 
+2024-05-21T12:41:37.992Z ERROR: MongoDB connection error: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string. 
+2024-05-21T12:41:37.995Z ERROR: uncaughtException: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
+MongooseError: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
+    at NativeConnection.createClient (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/connection.js:206:11)
+    at NativeConnection.openUri (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/connection.js:759:34)
+    at connect (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/index.js:405:15)
+    at file:///home/mdstorms/Ovidot/Ovidot/backend/app.js:80:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) 
+2024-05-21T12:44:10.857Z ERROR: uncaughtException: ENOENT: no such file or directory, open './undefined'
+Error: ENOENT: no such file or directory, open './undefined'
+    at Object.openSync (node:fs:580:18)
+    at readFileSync (node:fs:459:35)
+    at file:///home/mdstorms/Ovidot/Ovidot/backend/app.js:106:12
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) 
+2024-05-21T12:44:10.863Z ERROR: MongoDB connection error: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string. 
+2024-05-21T12:44:10.865Z ERROR: uncaughtException: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
+MongooseError: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
+    at NativeConnection.createClient (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/connection.js:206:11)
+    at NativeConnection.openUri (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/connection.js:759:34)
+    at connect (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/index.js:405:15)
+    at file:///home/mdstorms/Ovidot/Ovidot/backend/app.js:80:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) 
+2024-05-21T12:49:28.244Z ERROR: uncaughtException: ENOENT: no such file or directory, open './undefined'
+Error: ENOENT: no such file or directory, open './undefined'
+    at Object.openSync (node:fs:580:18)
+    at readFileSync (node:fs:459:35)
+    at file:///home/mdstorms/Ovidot/Ovidot/backend/app.js:106:12
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) 
+2024-05-21T12:49:28.249Z ERROR: MongoDB connection error: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string. 
+2024-05-21T12:49:28.251Z ERROR: uncaughtException: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
+MongooseError: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
+    at NativeConnection.createClient (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/connection.js:206:11)
+    at NativeConnection.openUri (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/connection.js:759:34)
+    at connect (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/index.js:405:15)
+    at file:///home/mdstorms/Ovidot/Ovidot/backend/app.js:80:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) 
+2024-05-21T20:44:42.005Z ERROR: uncaughtException: ENOENT: no such file or directory, open './undefined'
+Error: ENOENT: no such file or directory, open './undefined'
+    at Object.openSync (fs.js:498:3)
+    at readFileSync (fs.js:394:35)
+    at file:///home/mdstorms/Ovidot/Ovidot/backend/app.js:106:12
+    at ModuleJob.run (internal/modules/esm/module_job.js:170:25)
+    at async Loader.import (internal/modules/esm/loader.js:178:24)
+    at async Object.loadESM (internal/process/esm_loader.js:68:5) 
+2024-05-21T20:44:42.008Z ERROR: MongoDB connection error: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string. 
+2024-05-21T20:46:17.911Z ERROR: uncaughtException: ENOENT: no such file or directory, open './undefined'
+Error: ENOENT: no such file or directory, open './undefined'
+    at Object.openSync (node:fs:580:18)
+    at readFileSync (node:fs:459:35)
+    at file:///home/mdstorms/Ovidot/Ovidot/backend/app.js:106:12
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) 
+2024-05-21T20:46:17.916Z ERROR: MongoDB connection error: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string. 
+2024-05-21T20:46:17.918Z ERROR: uncaughtException: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
+MongooseError: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
+    at NativeConnection.createClient (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/connection.js:206:11)
+    at NativeConnection.openUri (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/connection.js:759:34)
+    at connect (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/index.js:405:15)
+    at file:///home/mdstorms/Ovidot/Ovidot/backend/app.js:80:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) 
+2024-05-21T20:47:42.164Z ERROR: uncaughtException: ENOENT: no such file or directory, open './undefined'
+Error: ENOENT: no such file or directory, open './undefined'
+    at Object.openSync (node:fs:580:18)
+    at readFileSync (node:fs:459:35)
+    at file:///home/mdstorms/Ovidot/Ovidot/backend/app.js:106:12
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) 
+2024-05-21T20:47:42.167Z ERROR: MongoDB connection error: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string. 
+2024-05-21T20:47:42.169Z ERROR: uncaughtException: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
+MongooseError: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
+    at NativeConnection.createClient (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/connection.js:206:11)
+    at NativeConnection.openUri (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/connection.js:759:34)
+    at connect (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/index.js:405:15)
+    at file:///home/mdstorms/Ovidot/Ovidot/backend/app.js:80:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) 
+2024-05-21T21:11:00.010Z ERROR: uncaughtException: ENOENT: no such file or directory, open './undefined'
+Error: ENOENT: no such file or directory, open './undefined'
+    at Object.openSync (node:fs:580:18)
+    at readFileSync (node:fs:459:35)
+    at file:///home/mdstorms/Ovidot/Ovidot/backend/app.js:106:12
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) 
+2024-05-21T21:11:00.013Z ERROR: MongoDB connection error: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string. 
+2024-05-21T21:11:00.015Z ERROR: uncaughtException: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
+MongooseError: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
+    at NativeConnection.createClient (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/connection.js:206:11)
+    at NativeConnection.openUri (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/connection.js:759:34)
+    at connect (/home/mdstorms/Ovidot/Ovidot/backend/node_modules/mongoose/lib/index.js:405:15)
+    at file:///home/mdstorms/Ovidot/Ovidot/backend/app.js:80:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) 
+2024-05-21T21:17:15.441Z ERROR: uncaughtException: Environment variables HOST and PORT must be defined
+Error: Environment variables HOST and PORT must be defined
+    at file:///home/mdstorms/Ovidot/Ovidot/backend/app.js:31:9
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) 
+2024-05-22T12:58:08.463Z ERROR: uncaughtException: swaggerUi is not defined
+ReferenceError: swaggerUi is not defined
+    at file:///home/mdstorms/Ovidot/Ovidot/backend/app.js:153:32
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) 
+2024-05-22T13:07:44.648Z ERROR: Error sending email for user creation: connect ECONNREFUSED 127.0.0.1:587 
+2024-05-22T13:07:44.650Z ERROR: connect ECONNREFUSED 127.0.0.1:587 
+2024-05-22T13:07:44.663Z ERROR: POST /api/v1/signup 500 776ms 500
+2024-05-22T20:40:17.608Z ERROR: Error sending email for user creation: connect ECONNREFUSED 127.0.0.1:587 
+2024-05-22T20:40:17.609Z ERROR: connect ECONNREFUSED 127.0.0.1:587 
+2024-05-22T20:40:17.610Z ERROR: POST /api/v1/signup 500 465ms 500
+2024-05-22T21:09:23.437Z ERROR: Error sending email for user creation: Mail command failed: 550-Requested action not taken: mailbox unavailable
+550 Sender address is not allowed. 
+2024-05-22T21:09:23.441Z ERROR: Mail command failed: 550-Requested action not taken: mailbox unavailable
+550 Sender address is not allowed. 
+2024-05-22T21:09:23.464Z ERROR: POST /api/v1/signup 500 3284ms 500
+2024-05-22T21:17:08.736Z ERROR: Error sending email for user creation: Mail command failed: 550-Requested action not taken: mailbox unavailable
+550 Sender address is not allowed. 
+2024-05-22T21:17:08.741Z ERROR: Mail command failed: 550-Requested action not taken: mailbox unavailable
+550 Sender address is not allowed. 
+2024-05-22T21:17:08.748Z ERROR: POST /api/v1/signup 500 2881ms 500
+2024-05-22T21:24:53.997Z ERROR: Error sending email for user creation: Invalid login: 535 Authentication credentials invalid 
+2024-05-22T21:24:54.000Z ERROR: Invalid login: 535 Authentication credentials invalid 
+2024-05-22T21:24:54.031Z ERROR: POST /api/v1/signup 500 3856ms 500
+2024-05-23T16:21:48.983Z ERROR: E11000 duplicate key error collection: ovidot_testdb.users index: username_1 dup key: { username: "string" } 
+2024-05-23T16:21:48.989Z ERROR: POST /api/v1/signup 500 466ms 500
+2024-05-23T16:22:18.931Z ERROR: Error sending email for user creation: Mail command failed: 550-Requested action not taken: mailbox unavailable
+550 Sender address is not allowed. 
+2024-05-23T16:22:18.933Z ERROR: Mail command failed: 550-Requested action not taken: mailbox unavailable
+550 Sender address is not allowed. 
+2024-05-23T16:22:18.935Z ERROR: POST /api/v1/signup 500 3666ms 500
+2024-05-23T16:25:19.144Z ERROR: Error sending email for user creation: Mail command failed: 550-Requested action not taken: mailbox unavailable
+550 Sender address is not allowed. 
+2024-05-23T16:25:19.146Z ERROR: Mail command failed: 550-Requested action not taken: mailbox unavailable
+550 Sender address is not allowed. 
+2024-05-23T16:25:19.154Z ERROR: POST /api/v1/signup 500 3046ms 500
+2024-05-23T16:27:14.303Z ERROR: Error sending email for user creation: Mail command failed: 550-Requested action not taken: mailbox unavailable
+550 Sender address is not allowed. 
+2024-05-23T16:27:14.305Z ERROR: Mail command failed: 550-Requested action not taken: mailbox unavailable
+550 Sender address is not allowed. 
+2024-05-23T16:27:14.316Z ERROR: POST /api/v1/signup 500 2974ms 500
+2024-05-23T16:32:03.310Z ERROR: Error sending email for user creation: Mail command failed: 550-Requested action not taken: mailbox unavailable
+550 Sender address is not allowed. 
+2024-05-23T16:32:03.314Z ERROR: Mail command failed: 550-Requested action not taken: mailbox unavailable
+550 Sender address is not allowed. 
+2024-05-23T16:32:03.332Z ERROR: POST /api/v1/signup 500 2693ms 500
+2024-05-23T16:37:11.365Z ERROR: Error sending email for user creation: Mail command failed: 550-Requested action not taken: mailbox unavailable
+550 Sender address is not allowed. 
+2024-05-23T16:37:11.368Z ERROR: Mail command failed: 550-Requested action not taken: mailbox unavailable
+550 Sender address is not allowed. 
+2024-05-23T16:37:11.390Z ERROR: POST /api/v1/signup 500 2446ms 500
+2024-05-23T16:58:31.225Z ERROR: Error sending email for user creation: Unexpected socket close 
+2024-05-23T16:58:31.227Z ERROR: Unexpected socket close 
+2024-05-23T16:58:31.230Z ERROR: POST /api/v1/signup 500 12398ms 500
+2024-05-23T16:59:57.070Z ERROR: Error sending email for user creation: Unexpected socket close 
+2024-05-23T16:59:57.074Z ERROR: Unexpected socket close 
+2024-05-23T16:59:57.109Z ERROR: POST /api/v1/signup 500 11762ms 500
+2024-05-23T17:02:15.181Z ERROR: Error sending email for user creation: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials a640c23a62f3a-a5a17894d2asm1952327366b.87 - gsmtp 
+2024-05-23T17:02:15.182Z ERROR: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials a640c23a62f3a-a5a17894d2asm1952327366b.87 - gsmtp 
+2024-05-23T17:02:15.189Z ERROR: POST /api/v1/signup 500 1247ms 500
+2024-05-23T17:37:05.738Z ERROR: uncaughtException: APP_PATH is not defined
+ReferenceError: APP_PATH is not defined
+    at file:///home/mdstorms/Ovidot/Ovidot/backend/app.js:148:9
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) 

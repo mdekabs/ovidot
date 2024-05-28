@@ -1,3 +1,7 @@
-node_modules/
-package-lock.json
+node_modules
 .env
+jsdoc.config.json
+.prettierignore
+.gitignore
+blacklist.json
+package-lock.json
