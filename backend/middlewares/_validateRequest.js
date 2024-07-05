@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import responseHandler from '../utils/index.js';
+import { responseHandler }from '../utils/index.js';
 import HttpStatus from 'http-status-codes';
 
 const validateRequest = (schema) => {
