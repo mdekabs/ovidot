@@ -52,10 +52,6 @@ export const swaggerOptions = {
               type: "string",
               description: "Cycle ID",
             },
-            userId: {
-              type: "string",
-              description: "User ID",
-            },
             startDate: {
               type: "string",
               description: "Start date of the cycle",

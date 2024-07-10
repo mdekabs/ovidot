@@ -1,6 +1,6 @@
 import express from 'express';
 import Joi from 'joi';
-import { accessLevelVerifier } from '../middlewares/_verifyToken.js';
+import { authenticationVerifier } from '../middlewares/_verifyToken.js';
 import { CycleController } from '../controllers/index.js';
 import validateRequest from '../middlewares/_validateRequest.js';
 
@@ -34,9 +34,6 @@ const predictOvulationSchema = Joi.object({
  *           schema:
  *             type: object
  *             properties:
- *               userId:
- *                 type: string
- *                 description: The ID of the user
  *               startDate:
  *                 type: string
  *                 format: date
@@ -52,7 +49,7 @@ const predictOvulationSchema = Joi.object({
  *       500:
  *         description: Internal server error
  */
-router.post('/predict', validateRequest(predictOvulationSchema), CycleController.predictOvulation);
+router.post('/predict', authenticationVerifier, validateRequest(predictOvulationSchema), CycleController.predictOvulation);
 
 // Define schema for updating user cycle
 const updateCycleSchema = Joi.object({
@@ -75,9 +72,6 @@ const updateCycleSchema = Joi.object({
  *           schema:
  *             type: object
  *             properties:
- *               userId:
- *                 type: string
- *                 description: The ID of the user
  *               actualOvulationDate:
  *                 type: string
  *                 format: date
