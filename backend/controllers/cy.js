@@ -3,6 +3,8 @@ import { responseHandler } from '../utils/index.js';
 import HttpStatus from 'http-status-codes';
 
 // Constants
+const DEFAULT_PREDICTED_CYCLE_LENGTH = 28;
+const OVULATION_OFFSET_DAYS = 14;
 const MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000;
 const IRREGULAR_THRESHOLD = 7;
 
@@ -27,10 +29,10 @@ const CycleController = {
             const menstruationEnd = new Date(startDateObj.getTime() + flowLength * MILLISECONDS_IN_A_DAY);
 
             // Calculate ovulation date based on average cycle length (14 days after menstruation starts)
-            const ovulationDate = new Date(menstruationEnd.getTime() + 14 * MILLISECONDS_IN_A_DAY);
+            const ovulationDate = new Date(menstruationEnd.getTime() + OVULATION_OFFSET_DAYS * MILLISECONDS_IN_A_DAY);
 
             // Calculate next cycle start date based on average cycle length plus menstruation length
-            const nextCycleStartDate = new Date(ovulationDate.getTime() + 14 * MILLISECONDS_IN_A_DAY);
+            const nextCycleStartDate = new Date(ovulationDate.getTime() + OVULATION_OFFSET_DAYS * MILLISECONDS_IN_A_DAY);
 
             // Check if there are previous cycles and calculate irregularity
             const previousCycles = await Cycle.find({ userId: user._id });
@@ -39,10 +41,10 @@ const CycleController = {
                 const previousCycleLengths = previousCycles.map(cycle => cycle.predictedCycleLength);
                 const mean = previousCycleLengths.reduce((acc, val) => acc + val, 0) / previousCycleLengths.length;
                 const stdDev = calculateStandardDeviation(previousCycleLengths);
-                isIrregular = Math.abs(14 + flowLength - mean) > IRREGULAR_THRESHOLD;
+                isIrregular = Math.abs((OVULATION_OFFSET_DAYS + flowLength) - mean) > IRREGULAR_THRESHOLD;
             }
 
-            const predictedCycleLength = 14 + flowLength;
+            const predictedCycleLength = OVULATION_OFFSET_DAYS + flowLength;
             const totalCycleLength = predictedCycleLength + flowLength;
 
             const newCycle = new Cycle({
@@ -82,10 +84,10 @@ const CycleController = {
             const menstruationEnd = new Date(startDateObj.getTime() + flowLength * MILLISECONDS_IN_A_DAY);
 
             // Calculate ovulation date based on average cycle length (14 days after menstruation starts)
-            const ovulationDate = new Date(menstruationEnd.getTime() + 14 * MILLISECONDS_IN_A_DAY);
+            const ovulationDate = new Date(menstruationEnd.getTime() + OVULATION_OFFSET_DAYS * MILLISECONDS_IN_A_DAY);
 
             // Calculate next cycle start date based on average cycle length plus menstruation length
-            const nextCycleStartDate = new Date(ovulationDate.getTime() + 14 * MILLISECONDS_IN_A_DAY);
+            const nextCycleStartDate = new Date(ovulationDate.getTime() + OVULATION_OFFSET_DAYS * MILLISECONDS_IN_A_DAY);
 
             // Check if there are previous cycles and calculate irregularity
             const previousCycles = await Cycle.find({ userId: user._id });
@@ -94,10 +96,10 @@ const CycleController = {
                 const previousCycleLengths = previousCycles.map(cycle => cycle.predictedCycleLength);
                 const mean = previousCycleLengths.reduce((acc, val) => acc + val, 0) / previousCycleLengths.length;
                 const stdDev = calculateStandardDeviation(previousCycleLengths);
-                isIrregular = Math.abs(14 + flowLength - mean) > IRREGULAR_THRESHOLD;
+                isIrregular = Math.abs((OVULATION_OFFSET_DAYS + flowLength) - mean) > IRREGULAR_THRESHOLD;
             }
 
-            const predictedCycleLength = 14 + flowLength;
+            const predictedCycleLength = OVULATION_OFFSET_DAYS + flowLength;
             const totalCycleLength = predictedCycleLength + flowLength;
 
             const newCycle = new Cycle({
@@ -125,7 +127,7 @@ const CycleController = {
 
     updateCycle: async (req, res) => {
         try {
-            const { actualOvulationDate, actualFlowLength } = req.body;
+            const { startDate, actualOvulationDate } = req.body;
             const userId = req.user.id;
 
             const user = await User.findById(userId);
@@ -133,39 +135,31 @@ const CycleController = {
                 return responseHandler(res, HttpStatus.NOT_FOUND, 'error', 'User not found');
             }
 
-            // Find the latest cycle for the user
+            const startDateObj = new Date(startDate);
+            const actualOvulationDateObj = new Date(actualOvulationDate);
             const userCycle = await Cycle.findOne({ userId: user._id }).sort({ startDate: -1 }).exec();
 
             if (!userCycle) {
                 return responseHandler(res, HttpStatus.NOT_FOUND, 'error', 'No cycle data found for user.');
             }
 
-            // Use the start date from the latest cycle
-            const startDateObj = userCycle.startDate;
-            const actualOvulationDateObj = new Date(actualOvulationDate);
+            const nextCycleStartDateObj = new Date(actualOvulationDateObj.getTime() + userCycle.predictedCycleLength * MILLISECONDS_IN_A_DAY);
+            const actualCycleLength = Math.round((nextCycleStartDateObj - startDateObj) / MILLISECONDS_IN_A_DAY);
 
-            // Calculate next cycle start date based on actual ovulation date and actual flow length
-            const nextCycleStartDate = new Date(actualOvulationDateObj.getTime() + actualFlowLength * MILLISECONDS_IN_A_DAY);
+            const previousCycleLengths = userCycle.previousCycleLengths;
+            previousCycleLengths.push(actualCycleLength);
 
-            // Calculate actual cycle length in days
-            const actualCycleLength = Math.round((nextCycleStartDate - startDateObj) / MILLISECONDS_IN_A_DAY);
-
-            // Update previous cycle lengths and check for irregularity
-            const previousCycleLengths = [...userCycle.previousCycleLengths, actualCycleLength];
             const mean = previousCycleLengths.reduce((acc, val) => acc + val, 0) / previousCycleLengths.length;
             const stdDev = calculateStandardDeviation(previousCycleLengths);
             const isIrregular = Math.abs(actualCycleLength - mean) > IRREGULAR_THRESHOLD;
 
-            // Update cycle data
             userCycle.actualOvulationDate = actualOvulationDateObj;
-            userCycle.nextCycleStartDate = nextCycleStartDate;
+            userCycle.nextCycleStartDate = nextCycleStartDateObj;
             userCycle.previousCycleLengths = previousCycleLengths;
             userCycle.irregularCycle = isIrregular;
 
-            // Save updated cycle
             await userCycle.save();
 
-            // Respond with updated cycle data
             responseHandler(res, HttpStatus.OK, 'success', 'Cycle data updated successfully.', {
                 updatedCycleLength: actualCycleLength,
                 isIrregular,

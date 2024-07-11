@@ -53,7 +53,7 @@ router.post('/predict', authenticationVerifier, validateRequest(predictOvulation
 // Define schema for updating user cycle
 const updateCycleSchema = Joi.object({
     actualOvulationDate: Joi.date().required(),
-    flowLength: Joi.number().required()
+    actualFlowLength: Joi.number().required()
 });
 
 /**
