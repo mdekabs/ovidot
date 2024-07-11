@@ -15,7 +15,6 @@ const router = express.Router();
 
 // Define schema for predicting ovulation
 const predictOvulationSchema = Joi.object({
-    userId: Joi.string().required(),
     startDate: Joi.date().required(),
     flowLength: Joi.number().required()
 });
@@ -53,7 +52,6 @@ router.post('/predict', authenticationVerifier, validateRequest(predictOvulation
 
 // Define schema for updating user cycle
 const updateCycleSchema = Joi.object({
-    userId: Joi.string().required(),
     actualOvulationDate: Joi.date().required(),
     startDate: Joi.date().required()  // Include startDate in update schema
 });
@@ -88,6 +86,6 @@ const updateCycleSchema = Joi.object({
  *       500:
  *         description: Internal server error
  */
-router.post('/update', validateRequest(updateCycleSchema), CycleController.updateCycle);
+router.post('/update', authenticationVerifier, validateRequest(updateCycleSchema), CycleController.updateCycle);
 
 export default router;

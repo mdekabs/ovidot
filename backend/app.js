@@ -16,11 +16,6 @@ import { authRoute, userRoute, cycleRoute } from "./routes/index.js";
 
 dotenv.config();
 
-// Validate environment variables
-//if (!process.env.DB_URI) {
-//  throw new Error("DB_URI is missing from .env file.");
-//}
-
 const app = express();
 
 // Enable CORS

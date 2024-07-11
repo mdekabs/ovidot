@@ -1,4 +1,4 @@
-import { Cycle } from '../models/index.js';
+import { Cycle, User } from '../models/index.js';
 import { responseHandler } from '../utils/index.js';
 import HttpStatus from 'http-status-codes';
 
@@ -42,25 +42,20 @@ const CycleController = {
             }
 
             const startDateObj = new Date(startDate);
-            const userCycle = await Cycle.findOne({ userId: user._id }).sort({ startDate: -1 }).exec();
+            const menstruationEnd = new Date(startDateObj.getTime() + flowLength * 24 * 60 * 60 * 1000); // Calculate end of menstruation
 
-            let cycleLength = 28; // Default cycle length if no previous data is available
-            if (userCycle && userCycle.previousCycleLengths.length > 0) {
-                cycleLength = Math.round(userCycle.previousCycleLengths.reduce((a, b) => a + b, 0) / userCycle.previousCycleLengths.length);
-            }
+            // Calculate ovulation date based on average cycle length (14 days after menstruation starts)
+            const ovulationDate = new Date(menstruationEnd.getTime() + 14 * 24 * 60 * 60 * 1000);
 
-            const ovulationDate = new Date(startDateObj);
-            ovulationDate.setDate(startDateObj.getDate() + Math.round(cycleLength / 2));
-
-            const nextCycleStartDate = new Date(startDateObj);
-            nextCycleStartDate.setDate(startDateObj.getDate() + cycleLength);
+            // Calculate next cycle start date based on average cycle length plus menstruation length
+            const nextCycleStartDate = new Date(ovulationDate.getTime() + 14 * 24 * 60 * 60 * 1000);
 
             const newCycle = new Cycle({
                 userId: user._id,
                 startDate: startDateObj,
                 flowLength,
-                predictedCycleLength: cycleLength,
-                previousCycleLengths: userCycle ? userCycle.previousCycleLengths : [],
+                predictedCycleLength: 14 + flowLength, // Update to include menstruation length in the cycle length
+                previousCycleLengths: [], // Initialize as empty array
                 irregularCycle: false // Assume regular cycle unless proven otherwise
             });
 
@@ -68,7 +63,7 @@ const CycleController = {
             responseHandler(res, HttpStatus.OK, 'success', 'Ovulation prediction successful.', {
                 ovulationDate,
                 nextCycleStartDate,
-                predictedCycleLength: cycleLength
+                predictedCycleLength: 14 + flowLength // Include menstruation length in the cycle length
             });
         } catch (error) {
             console.error('Error predicting ovulation:', error);
@@ -117,7 +112,8 @@ const CycleController = {
             responseHandler(res, HttpStatus.OK, 'success', 'Cycle data updated successfully.', {
                 updatedCycleLength: actualCycleLength,
                 isIrregular,
-                stdDev
+                stdDev,
+                nextCycleStartDate
             });
         } catch (error) {
             console.error('Error updating cycle data:', error);
@@ -125,5 +121,5 @@ const CycleController = {
         }
     }
 };
-export default CycleController;
 
+export default CycleController;
