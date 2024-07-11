@@ -48,7 +48,7 @@ const predictOvulationSchema = Joi.object({
  *       500:
  *         description: Internal server error
  */
-router.post('/predict', authenticationVerifier, validateRequest(predictOvulationSchema), CycleController.predictOvulation);
+router.post('/predict', authenticationVerifier, validateRequest(predictOvulationSchema), CycleController.createCycle);
 
 // Define schema for updating user cycle
 const updateCycleSchema = Joi.object({

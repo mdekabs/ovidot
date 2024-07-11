@@ -25,12 +25,19 @@ const cycleSchema = new mongoose.Schema({
     actualOvulationDate: {
         type: Date
     },
+    ovulationDate: {
+        type: Date
+    },
     nextCycleStartDate: {
         type: Date
     },
     irregularCycle: {
         type: Boolean,
         default: false
+    },
+    month: {
+        type: String,
+        required: true
     }
 });
 
