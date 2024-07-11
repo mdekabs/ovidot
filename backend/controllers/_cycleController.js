@@ -12,6 +12,21 @@ const calculateStandardDeviation = (arr) => {
     return Math.sqrt(variance);
 };
 
+const calculateCycleDates = (startDate, flowLength) => {
+    const startDateObj = new Date(startDate);
+    const menstruationEnd = new Date(startDateObj.getTime() + flowLength * MILLISECONDS_IN_A_DAY);
+    const ovulationDate = new Date(menstruationEnd.getTime() + 14 * MILLISECONDS_IN_A_DAY);
+    const nextCycleStartDate = new Date(ovulationDate.getTime() + 14 * MILLISECONDS_IN_A_DAY);
+    return { startDateObj, menstruationEnd, ovulationDate, nextCycleStartDate };
+};
+
+const checkIrregularity = (previousCycleLengths, predictedCycleLength, flowLength) => {
+    if (previousCycleLengths.length === 0) return false;
+    const mean = previousCycleLengths.reduce((acc, val) => acc + val, 0) / previousCycleLengths.length;
+    const stdDev = calculateStandardDeviation(previousCycleLengths);
+    return Math.abs(predictedCycleLength + flowLength - mean) > IRREGULAR_THRESHOLD;
+};
+
 const CycleController = {
     createCycle: async (req, res) => {
         try {
@@ -23,29 +38,17 @@ const CycleController = {
                 return responseHandler(res, HttpStatus.NOT_FOUND, 'error', 'User not found');
             }
 
-            // Check if a cycle already exists for the user in the given month
-            const cycleExists = await checkCycleExistsForMonth(user._id, startDate);
-            if (cycleExists) {
+            if (await checkCycleExistsForMonth(user._id, startDate)) {
                 return responseHandler(res, HttpStatus.CONFLICT, 'error', 'A cycle already exists for this month');
             }
 
-            const startDateObj = new Date(startDate);
-            const month = `${startDateObj.getFullYear()}-${startDateObj.getMonth() + 1}`;
-            const menstruationEnd = new Date(startDateObj.getTime() + flowLength * MILLISECONDS_IN_A_DAY);
-            const ovulationDate = new Date(menstruationEnd.getTime() + 14 * MILLISECONDS_IN_A_DAY);
-            const nextCycleStartDate = new Date(ovulationDate.getTime() + 14 * MILLISECONDS_IN_A_DAY);
+            const { startDateObj, ovulationDate, nextCycleStartDate } = calculateCycleDates(startDate, flowLength);
 
             const previousCycles = await Cycle.find({ userId: user._id });
-            let isIrregular = false;
-            if (previousCycles.length > 0) {
-                const previousCycleLengths = previousCycles.map(cycle => cycle.predictedCycleLength);
-                const mean = previousCycleLengths.reduce((acc, val) => acc + val, 0) / previousCycleLengths.length;
-                const stdDev = calculateStandardDeviation(previousCycleLengths);
-                isIrregular = Math.abs(14 + flowLength - mean) > IRREGULAR_THRESHOLD;
-            }
+            const previousCycleLengths = previousCycles.map(cycle => cycle.predictedCycleLength);
 
             const predictedCycleLength = 14 + flowLength;
-            const totalCycleLength = predictedCycleLength + flowLength;
+            const isIrregular = checkIrregularity(previousCycleLengths, predictedCycleLength, flowLength);
 
             const newCycle = new Cycle({
                 userId: user._id,
@@ -56,7 +59,7 @@ const CycleController = {
                 irregularCycle: isIrregular,
                 ovulationDate,
                 nextCycleStartDate,
-                month: month // Ensure month is set during creation
+                month: `${startDateObj.getFullYear()}-${startDateObj.getMonth() + 1}`
             });
 
             await newCycle.save();
@@ -65,7 +68,7 @@ const CycleController = {
                 nextCycleStartDate,
                 predictedCycleLength,
                 isIrregular,
-                totalCycleLength
+                totalCycleLength: predictedCycleLength + flowLength
             });
         } catch (error) {
             console.error('Error creating cycle:', error);
@@ -83,46 +86,30 @@ const CycleController = {
                 return responseHandler(res, HttpStatus.NOT_FOUND, 'error', 'User not found');
             }
 
-            // Find the latest cycle for the user
             const userCycle = await Cycle.findOne({ userId: user._id }).sort({ startDate: -1 }).exec();
-
             if (!userCycle) {
                 return responseHandler(res, HttpStatus.NOT_FOUND, 'error', 'No cycle data found for user.');
             }
 
-            // Use the start date from the latest cycle
             const startDateObj = userCycle.startDate;
             const actualOvulationDateObj = new Date(actualOvulationDate);
 
-            // Update flow length and ovulation date
-            userCycle.flowLength = actualFlowLength;
-            userCycle.actualOvulationDate = actualOvulationDateObj;
-
-            // Preserve existing month value
-            const existingMonth = userCycle.month;
-
-            // Calculate next cycle start date based on actual ovulation date and actual flow length
             const nextCycleStartDate = new Date(actualOvulationDateObj.getTime() + 14 * MILLISECONDS_IN_A_DAY);
-
-            // Calculate actual cycle length in days
             const actualCycleLength = Math.round((nextCycleStartDate - startDateObj) / MILLISECONDS_IN_A_DAY);
 
-            // Update previous cycle lengths and check for irregularity
             const previousCycleLengths = [...userCycle.previousCycleLengths, actualCycleLength];
             const mean = previousCycleLengths.reduce((acc, val) => acc + val, 0) / previousCycleLengths.length;
             const stdDev = calculateStandardDeviation(previousCycleLengths);
             const isIrregular = Math.abs(actualCycleLength - mean) > IRREGULAR_THRESHOLD;
 
-            // Update cycle data
+            userCycle.flowLength = actualFlowLength;
+            userCycle.actualOvulationDate = actualOvulationDateObj;
             userCycle.nextCycleStartDate = nextCycleStartDate;
             userCycle.previousCycleLengths = previousCycleLengths;
             userCycle.irregularCycle = isIrregular;
-            userCycle.month = existingMonth; // Preserve existing month value
+            userCycle.month = `${startDateObj.getFullYear()}-${startDateObj.getMonth() + 1}`; // Ensure month is set during update
 
-            // Save updated cycle
             await userCycle.save();
-
-            // Respond with updated cycle data
             responseHandler(res, HttpStatus.OK, 'success', 'Cycle data updated successfully.', {
                 updatedCycleLength: actualCycleLength,
                 isIrregular,
