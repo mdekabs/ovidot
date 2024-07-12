@@ -94,6 +94,11 @@ const CycleController = {
             const startDateObj = userCycle.startDate;
             const actualOvulationDateObj = new Date(actualOvulationDate);
 
+            // Validate actualOvulationDate
+            if (actualOvulationDateObj < startDateObj) {
+                return responseHandler(res, HttpStatus.BAD_REQUEST, 'error', 'Actual ovulation date cannot be before the start date.');
+            }
+
             const nextCycleStartDate = new Date(actualOvulationDateObj.getTime() + 14 * MILLISECONDS_IN_A_DAY);
             const actualCycleLength = Math.round((nextCycleStartDate - startDateObj) / MILLISECONDS_IN_A_DAY);
 
