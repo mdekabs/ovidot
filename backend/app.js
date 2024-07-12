@@ -45,8 +45,8 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Route definitions
 app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/users", Pagination, userRoute);
-app.use("/api/v1/cycles", cycleRoute);
+app.use("/api/v1/users", checkCache, Pagination, userRoute);
+app.use("/api/v1/cycles", cacheResponse(300), cycleRoute);
 
 // Database connection
 async function connectToDatabase() {
