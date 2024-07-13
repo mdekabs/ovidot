@@ -33,25 +33,29 @@ const CycleController = {
             const { startDate, flowLength } = req.body;
             const userId = req.user.id;
 
-            const user = await User.findById(userId);
+            const [user, existingCycle] = await Promise.all([
+                User.findById(userId),
+                checkCycleExistsForMonth(userId, startDate)
+            ]);
+
             if (!user) {
                 return responseHandler(res, HttpStatus.NOT_FOUND, 'error', 'User not found');
             }
 
-            if (await checkCycleExistsForMonth(user._id, startDate)) {
+            if (existingCycle) {
                 return responseHandler(res, HttpStatus.CONFLICT, 'error', 'A cycle already exists for this month');
             }
 
             const { startDateObj, ovulationDate, nextCycleStartDate } = calculateCycleDates(startDate, flowLength);
 
-            const previousCycles = await Cycle.find({ userId: user._id });
+            const previousCycles = await Cycle.find({ userId });
             const previousCycleLengths = previousCycles.map(cycle => cycle.predictedCycleLength);
 
             const predictedCycleLength = 14 + flowLength;
             const isIrregular = checkIrregularity(previousCycleLengths, predictedCycleLength, flowLength);
 
             const newCycle = new Cycle({
-                userId: user._id,
+                userId,
                 startDate: startDateObj,
                 flowLength,
                 predictedCycleLength,
@@ -125,6 +129,92 @@ const CycleController = {
         } catch (error) {
             console.error('Error updating cycle data:', error);
             responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, 'error', 'Error updating cycle data', { error });
+        }
+    },
+
+    deleteCycle: async (req, res) => {
+        try {
+            const userId = req.user.id;
+            const { cycleId } = req.params;
+
+            const user = await User.findById(userId);
+            if (!user) {
+                return responseHandler(res, HttpStatus.NOT_FOUND, 'error', 'User not found');
+            }
+
+            const cycle = await Cycle.findOneAndDelete({ userId, _id: cycleId });
+            if (!cycle) {
+                return responseHandler(res, HttpStatus.NOT_FOUND, 'error', 'Cycle not found');
+            }
+
+            responseHandler(res, HttpStatus.OK, 'success', 'Cycle deleted successfully');
+        } catch (error) {
+            console.error('Error deleting cycle:', error);
+            responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, 'error', 'Error deleting cycle', { error });
+        }
+    },
+
+    getCycle: async (req, res) => {
+        try {
+            const userId = req.user.id;
+            const { cycleId } = req.params;
+
+            const user = await User.findById(userId);
+            if (!user) {
+                return responseHandler(res, HttpStatus.NOT_FOUND, 'error', 'User not found');
+            }
+
+            const cycle = await Cycle.findOne({ userId, _id: cycleId });
+            if (!cycle) {
+                return responseHandler(res, HttpStatus.NOT_FOUND, 'error', 'Cycle not found');
+            }
+
+            responseHandler(res, HttpStatus.OK, 'success', 'Cycle retrieved successfully', { cycle });
+        } catch (error) {
+            console.error('Error retrieving cycle:', error);
+            responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, 'error', 'Error retrieving cycle', { error });
+        }
+    },
+
+    getAllCycles: async (req, res) => {
+        try {
+            const userId = req.user.id;
+
+            const user = await User.findById(userId);
+            if (!user) {
+                return responseHandler(res, HttpStatus.NOT_FOUND, 'error', 'User not found');
+            }
+
+            const cycles = await Cycle.find({ userId });
+            responseHandler(res, HttpStatus.OK, 'success', 'Cycles retrieved successfully', { cycles });
+        } catch (error) {
+            console.error('Error retrieving cycles:', error);
+            responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, 'error', 'Error retrieving cycles', { error });
+        }
+    },
+
+    getCyclesByMonth: async (req, res) => {
+        try {
+            const userId = req.user.id;
+            const { year, month } = req.params;
+
+            const user = await User.findById(userId);
+            if (!user) {
+                return responseHandler(res, HttpStatus.NOT_FOUND, 'error', 'User not found');
+            }
+
+            const startDate = new Date(year, month - 1, 1);
+            const endDate = new Date(year, month, 1);
+
+            const cycles = await Cycle.find({
+                userId,
+                startDate: { $gte: startDate, $lt: endDate }
+            });
+
+            responseHandler(res, HttpStatus.OK, 'success', 'Cycles retrieved successfully', { cycles });
+        } catch (error) {
+            console.error('Error retrieving cycles by month:', error);
+            responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, 'error', 'Error retrieving cycles by month', { error });
         }
     }
 };

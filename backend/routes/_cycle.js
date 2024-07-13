@@ -74,10 +74,9 @@ const updateCycleSchema = Joi.object({
  *                 type: string
  *                 format: date
  *                 description: The actual ovulation date
- *               startDate:
- *                 type: string
- *                 format: date
- *                 description: The start date of the new cycle
+ *               actualFlowLength:
+ *                 type: number
+ *                 description: Length of menstrual flow in days
  *     responses:
  *       200:
  *         description: User cycle updated successfully
@@ -87,5 +86,98 @@ const updateCycleSchema = Joi.object({
  *         description: Internal server error
  */
 router.post('/update', authenticationVerifier, validateRequest(updateCycleSchema), CycleController.updateCycle);
+
+/**
+ * @swagger
+ * /api/v1/cycles/{cycleId}:
+ *   delete:
+ *     summary: Delete a cycle
+ *     description: Delete a specific cycle by ID
+ *     tags: [Cycles]
+ *     parameters:
+ *       - in: path
+ *         name: cycleId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The cycle ID
+ *     responses:
+ *       200:
+ *         description: Cycle deleted successfully
+ *       404:
+ *         description: Cycle not found
+ *       500:
+ *         description: Internal server error
+ */
+router.delete('/:cycleId', authenticationVerifier, CycleController.deleteCycle);
+
+/**
+ * @swagger
+ * /api/v1/cycles/{cycleId}:
+ *   get:
+ *     summary: Get a cycle
+ *     description: Retrieve a specific cycle by ID
+ *     tags: [Cycles]
+ *     parameters:
+ *       - in: path
+ *         name: cycleId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The cycle ID
+ *     responses:
+ *       200:
+ *         description: Cycle retrieved successfully
+ *       404:
+ *         description: Cycle not found
+ *       500:
+ *         description: Internal server error
+ */
+router.get('/:cycleId', authenticationVerifier, CycleController.getCycle);
+
+/**
+ * @swagger
+ * /api/v1/cycles:
+ *   get:
+ *     summary: Get all cycles
+ *     description: Retrieve all cycles for the authenticated user
+ *     tags: [Cycles]
+ *     responses:
+ *       200:
+ *         description: Cycles retrieved successfully
+ *       500:
+ *         description: Internal server error
+ */
+router.get('/', authenticationVerifier, CycleController.getAllCycles);
+
+/**
+ * @swagger
+ * /api/v1/cycles/{year}/{month}:
+ *   get:
+ *     summary: Get cycles by month
+ *     description: Retrieve cycles for the authenticated user for a specific month and year
+ *     tags: [Cycles]
+ *     parameters:
+ *       - in: path
+ *         name: year
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The year to filter cycles
+ *       - in: path
+ *         name: month
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The month to filter cycles
+ *     responses:
+ *       200:
+ *         description: Cycles retrieved successfully
+ *       404:
+ *         description: Cycles not found
+ *       500:
+ *         description: Internal server error
+ */
+router.get('/:year/:month', authenticationVerifier, CycleController.getCyclesByMonth);
 
 export default router;
