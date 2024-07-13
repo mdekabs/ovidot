@@ -5,6 +5,7 @@ import HttpStatus from 'http-status-codes';
 // Constants
 const MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000;
 const IRREGULAR_THRESHOLD = 7;
+const OVULATION_INTERVAL_DAYS = 14;
 
 const calculateStandardDeviation = (arr) => {
     const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
@@ -15,8 +16,8 @@ const calculateStandardDeviation = (arr) => {
 const calculateCycleDates = (startDate, flowLength) => {
     const startDateObj = new Date(startDate);
     const menstruationEnd = new Date(startDateObj.getTime() + flowLength * MILLISECONDS_IN_A_DAY);
-    const ovulationDate = new Date(menstruationEnd.getTime() + 14 * MILLISECONDS_IN_A_DAY);
-    const nextCycleStartDate = new Date(ovulationDate.getTime() + 14 * MILLISECONDS_IN_A_DAY);
+    const ovulationDate = new Date(menstruationEnd.getTime() + OVULATION_INTERVAL_DAYS * MILLISECONDS_IN_A_DAY);
+    const nextCycleStartDate = new Date(ovulationDate.getTime() + OVULATION_INTERVAL_DAYS * MILLISECONDS_IN_A_DAY);
     return { startDateObj, menstruationEnd, ovulationDate, nextCycleStartDate };
 };
 
@@ -51,7 +52,7 @@ const CycleController = {
             const previousCycles = await Cycle.find({ userId });
             const previousCycleLengths = previousCycles.map(cycle => cycle.predictedCycleLength);
 
-            const predictedCycleLength = 14 + flowLength;
+            const predictedCycleLength = OVULATION_INTERVAL_DAYS + flowLength;
             const isIrregular = checkIrregularity(previousCycleLengths, predictedCycleLength, flowLength);
 
             const newCycle = new Cycle({
@@ -103,7 +104,7 @@ const CycleController = {
                 return responseHandler(res, HttpStatus.BAD_REQUEST, 'error', 'Actual ovulation date cannot be before the start date.');
             }
 
-            const nextCycleStartDate = new Date(actualOvulationDateObj.getTime() + 14 * MILLISECONDS_IN_A_DAY);
+            const nextCycleStartDate = new Date(actualOvulationDateObj.getTime() + OVULATION_INTERVAL_DAYS * MILLISECONDS_IN_A_DAY);
             const actualCycleLength = Math.round((nextCycleStartDate - startDateObj) / MILLISECONDS_IN_A_DAY);
 
             const previousCycleLengths = [...userCycle.previousCycleLengths, actualCycleLength];
