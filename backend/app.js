@@ -45,7 +45,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Route definitions
 app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/users",  Pagination, userRoute);
+app.use("/api/v1/users", Pagination, userRoute);
 app.use("/api/v1/cycles", cacheResponse(300), cycleRoute);
 
 // Database connection
@@ -69,6 +69,6 @@ app.use((err, req, res, next) => {
 
 // Start the server on HTTP
 const PORT = process.env.PORT;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is listening on port ${PORT} with HTTP`);
 });
