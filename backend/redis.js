@@ -1,4 +1,8 @@
 import { createClient } from "redis";
+import dotenv from "dotenv";
+
+dotenv.config();
+
 
 let instance = null;
 
@@ -13,7 +17,10 @@ class RedisClient {
   constructor() {
     if (!instance) {
       instance = this;
-      this.client = createClient();
+      const redisUrl = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
+      this.client = createClient({
+        url: redisUrl  // Use the Redis URL from environment variable
+      });
       this.client.connect();
       this.alive = true;
 
