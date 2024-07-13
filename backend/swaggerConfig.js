@@ -8,7 +8,7 @@ export const swaggerOptions = {
     },
     servers: [
       {
-        url: "http://0.0.0.0:4000/api/v1",
+        url: "http://localhost:${PORT}/api/v1",
       },
     ],
     components: {
