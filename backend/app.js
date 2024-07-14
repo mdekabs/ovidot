@@ -11,7 +11,7 @@ import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { Pagination, checkCache, cacheResponse } from "./middlewares/index.js";
 import { swaggerOptions } from "./swaggerConfig.js";
-import { authRoute, userRoute, cycleRoute } from "./routes/index.js";
+import { authRoute, userRoute, cycleRoute, pregnancyRoute } from "./routes/index.js";
 
 dotenv.config();
 
@@ -46,7 +46,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/users", Pagination, userRoute);
 app.use("/api/v1/cycles", cacheResponse(300), cycleRoute);
-
+app.use("/api/v1/pregnancy", pregnancyRoute);
 // Database connection
 async function connectToDatabase() {
   try {
