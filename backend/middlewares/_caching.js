@@ -1,4 +1,6 @@
-import redisClient from '../redis.js';
+import redisClient from "../redis.js";
+
+const CACHE_DURATION = 60 * 60;
 
 /**
  * Middleware to check cache for existing responses.
@@ -22,12 +24,12 @@ export const checkCache = async (req, res, next) => {
 /**
  * Middleware to cache responses.
  */
-export const cacheResponse = (duration) => (req, res, next) => {
+export const cacheResponse = (duration = CACHE_DURATION) => (req, res, next) => {
   const key = req.originalUrl;
   const sendResponse = res.send.bind(res);
 
   res.send = (body) => {
-    redisClient.set(key, JSON.stringify(body), duration);
+    redisClient.set(key, JSON.stringify(body), "EX", duration);
     sendResponse(body);
   };
 

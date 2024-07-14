@@ -1,8 +1,8 @@
-import express from 'express';
-import Joi from 'joi';
-import { authenticationVerifier } from '../middlewares/_verifyToken.js';
-import { CycleController } from '../controllers/index.js';
-import validateRequest from '../middlewares/_validateRequest.js';
+import express from "express";
+import Joi from "joi";
+import { authenticationVerifier, validateRequest } from "../middlewares/index.js";
+import { CycleController } from "../controllers/index.js";
+
 
 const router = express.Router();
 

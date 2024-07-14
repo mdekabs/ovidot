@@ -1,6 +1,8 @@
-import HttpStatus from 'http-status-codes';
+import HttpStatus from "http-status-codes";
 import User from "../models/_user.js";
-import { responseHandler } from '../utils/index.js';
+import { responseHandler } from "../utils/index.js";
+
+const PASSWORD_SALT_ROUNDS = 10;
 
 const UserController = {
     /* get all users */
@@ -29,11 +31,11 @@ const UserController = {
 
     /* get user stats */
     get_stats: async (req, res) => {
-        const date = new Date();
-        const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
+        const DATE = new Date();
+        const LAST_YEAR = new Date(DATE.setFullYear(DATE.getFullYear() - 1));
         try {
             const data = await User.aggregate([
-                { $match: { createdAt: { $gte: lastYear } } },
+                { $match: { createdAt: { $gte: LAST_YEAR } } },
                 { $project: { month: { $month: "$createdAt" } } },
                 { $group: { _id: "$month", total: { $sum: 1 } } }
             ]);
@@ -46,7 +48,7 @@ const UserController = {
     /* update user */
     update_user: async (req, res) => {
         if (req.body.password) {
-            req.body.password = bcrypt.hashSync(req.body.password, 10);
+            req.body.password = bcrypt.hashSync(req.body.password, PASSWORD_SALT_ROUNDS);
         }
 
         try {

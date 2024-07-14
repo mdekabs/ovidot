@@ -1,7 +1,7 @@
-import express from 'express';
-import Joi from 'joi';
-import { AuthController } from '../controllers/index.js';
-import validateRequest from '../middlewares/_validateRequest.js';
+import express from "express";
+import Joi from "joi";
+import { AuthController } from "../controllers/index.js";
+import { validateRequest } from "../middlewares/index.js";
 
 const router = express.Router();
 

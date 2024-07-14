@@ -1,8 +1,8 @@
-import express from 'express';
-import Joi from 'joi';
-import { accessLevelVerifier, isAdminVerifier } from '../middlewares/_verifyToken.js';
-import { UserController } from '../controllers/index.js';
-import validateRequest from '../middlewares/_validateRequest.js';
+import express from "express";
+import Joi from "joi";
+import { validateRequest, accessLevelVerifier, isAdminVerifier } from "../middlewares/index.js";
+import { UserController } from "../controllers/index.js";
+
 
 const router = express.Router();
 

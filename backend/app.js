@@ -9,8 +9,7 @@ import helmet from "helmet";
 import fs from "fs";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
-import { checkCache, cacheResponse } from "./middlewares/_caching.js";
-import Pagination from "./middlewares/_pagination.js";
+import { Pagination, checkCache, cacheResponse } from "./middlewares/index.js";
 import { swaggerOptions } from "./swaggerConfig.js";
 import { authRoute, userRoute, cycleRoute } from "./routes/index.js";
 

@@ -1,6 +1,6 @@
-import { Cycle, User } from '../models/index.js';
-import { responseHandler, checkCycleExistsForMonth } from '../utils/index.js';
-import HttpStatus from 'http-status-codes';
+import { Cycle, User } from "../models/index.js";
+import { responseHandler, checkCycleExistsForMonth } from "../utils/index.js";
+import HttpStatus from "http-status-codes";
 
 // Constants
 const MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000;

@@ -19,7 +19,8 @@ class RedisClient {
       instance = this;
       const redisUrl = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
       this.client = createClient({
-        url: redisUrl  // Use the Redis URL from environment variable
+        url: redisUrl,
+        connection_timeout: 12000
       });
       this.client.connect();
       this.alive = true;

@@ -1,6 +1,6 @@
-import Joi from 'joi';
-import { responseHandler }from '../utils/index.js';
-import HttpStatus from 'http-status-codes';
+import Joi from "joi";
+import { responseHandler }from "../utils/index.js";
+import HttpStatus from "http-status-codes";
 
 const validateRequest = (schema) => {
     return (req, res, next) => {

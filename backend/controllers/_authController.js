@@ -1,4 +1,4 @@
-import HttpStatus from 'http-status-codes';
+import HttpStatus from "http-status-codes";
 import User from "../models/_user.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -8,10 +8,15 @@ import { responseHandler, emailQueue, generatePasswordResetEmail } from "../util
 
 dotenv.config();
 
+const PASSWORD_SALT_ROUNDS = 10;
+const PASSWORD_RESET_TOKEN_BYTES = 32;
+const PASSWORD_RESET_TOKEN_EXPIRATION = 3600000;
+const JWT_EXPIRATION = "1d";
+
 const AuthController = {
     create_user: async (req, res, next) => {
         try {
-            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            const hashedPassword = await bcrypt.hash(req.body.password, PASSWORD_SALT_ROUNDS);
             const newUser = new User({
                 username: req.body.username,
                 email: req.body.email,
@@ -34,7 +39,7 @@ const AuthController = {
             const accessToken = jwt.sign(
                 { id: user._id, isAdmin: user.isAdmin },
                 process.env.JWT_SECRET,
-                { expiresIn: "1d" }
+                { expiresIn: JWT_EXPIRATION }
             );
 
             const { password, ...data } = user._doc;
@@ -55,9 +60,9 @@ const AuthController = {
                 return responseHandler(res, HttpStatus.NOT_FOUND, "error", "User not found");
             }
 
-            const token = crypto.randomBytes(32).toString('hex');
+            const token = crypto.randomBytes(PASSWORD_RESET_TOKEN_BYTES).toString("hex");
             user.resetPasswordToken = token;
-            user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+            user.resetPasswordExpires = Date.now() + PASSWORD_RESET_TOKEN_EXPIRATION;
             await user.save();
 
             const message = generatePasswordResetEmail(req.headers.host, token);
@@ -92,7 +97,7 @@ const AuthController = {
                 return responseHandler(res, HttpStatus.BAD_REQUEST, "error", "Password reset token is invalid or has expired");
             }
 
-            user.password = await bcrypt.hash(req.body.password, 10);
+            user.password = await bcrypt.hash(req.body.password, PASSWORD_SALT_ROUNDS);
             user.resetPasswordToken = null;
             user.resetPasswordExpires = null;
             await user.save();
