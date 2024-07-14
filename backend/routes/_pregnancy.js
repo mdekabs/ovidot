@@ -39,7 +39,7 @@ const router = express.Router();
  *       500:
  *         description: Internal server error
  */
-router.post("/", authenticationVerifier, checkExistingPregnancy, Pregnancy.createPregnancy);
+router.post("/", authenticationVerifier, checkExistingPregnancy, PregnancyController.createPregnancy);
 
 /**
  * @swagger
@@ -63,7 +63,7 @@ router.post("/", authenticationVerifier, checkExistingPregnancy, Pregnancy.creat
  *       500:
  *         description: Internal server error
  */
-router.get("/:pregnancyId", authenticationVerifier, Pregnancy.getPregnancy);
+router.get("/:pregnancyId", authenticationVerifier, PregnancyController.getPregnancy);
 
 /**
  * @swagger
@@ -78,7 +78,7 @@ router.get("/:pregnancyId", authenticationVerifier, Pregnancy.getPregnancy);
  *       500:
  *         description: Internal server error
  */
-router.get("/", authenticationVerifier, Pregnancy.getAllPregnancies);
+router.get("/", authenticationVerifier, PregnancyController.getAllPregnancies);
 
 /**
  * @swagger
@@ -102,6 +102,6 @@ router.get("/", authenticationVerifier, Pregnancy.getAllPregnancies);
  *       500:
  *         description: Internal server error
  */
-router.delete("/:pregnancyId", authenticationVerifier, Pregnancy.deletePregnancy);
+router.delete("/:pregnancyId", authenticationVerifier, PregnancyController.deletePregnancy);
 
 export default router;
