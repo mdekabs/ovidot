@@ -17,7 +17,7 @@ class RedisClient {
   constructor() {
     if (!instance) {
       instance = this;
-      const redisUrl = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
+      const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
       this.client = createClient({
         url: redisUrl,
         connection_timeout: 12000
