@@ -2,9 +2,9 @@ export const swaggerOptions = {
   swaggerDefinition: {
     openapi: "3.0.0",
     info: {
-      title: "Ovidot: Women Cycle Tracking API",
+      title: "Ovidot: A comprehensive Women's Health Tracking API",
       version: "1.0.0",
-      description: "Cycle Tracking API documentation",
+      description: "API documentation",
     },
     servers: [
       {
@@ -84,6 +84,75 @@ export const swaggerOptions = {
             nextCycleStartDate: {
               type: "string",
               description: "Start date of the next cycle",
+              format: "date-time",
+            },
+          },
+        },
+        MoodEntry: {
+          type: "object",
+          properties: {
+            _id: {
+              type: "string",
+              description: "Mood Entry ID",
+            },
+            mood: {
+              type: "string",
+              description: "Mood category (e.g., happy, sad, anxious)",
+            },
+            symptoms: {
+              type: "array",
+              items: {
+                type: "string",
+              },
+              description: "Optional symptoms associated with the mood",
+            },
+            notes: {
+              type: "string",
+              description: "Optional notes related to the mood",
+            },
+            createdAt: {
+              type: "string",
+              description: "Date the mood entry was created",
+              format: "date-time",
+            },
+          },
+        },
+        EmergencyContact: {
+          type: "object",
+          properties: {
+            _id: {
+              type: "string",
+              description: "Emergency Contact ID",
+            },
+            contactName: {
+              type: "string",
+              description: "Name of the emergency contact",
+            },
+            contactNumber: {
+              type: "string",
+              description: "Phone number of the emergency contact",
+            },
+            relationship: {
+              type: "string",
+              description: "Relationship with the user",
+            },
+          },
+        },
+        Pregnancy: {
+          type: "object",
+          properties: {
+            _id: {
+              type: "string",
+              description: "Pregnancy ID",
+            },
+            lastMenstruationDate: {
+              type: "string",
+              description: "The date of the last menstruation",
+              format: "date",
+            },
+            createdAt: {
+              type: "string",
+              description: "Date the pregnancy was recorded",
               format: "date-time",
             },
           },
