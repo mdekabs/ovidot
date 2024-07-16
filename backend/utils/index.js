@@ -6,6 +6,7 @@ import { checkCycleExistsForMonth } from "./_month.js";
 import calculateEDD from "./_calculateEDD.js";
 import calculateFertileWindow from "./_calculateFertileWindow.js";
 import {isDateInCurrentMonth} from "./_date.js";
+import isUserPregnant from "./_isUserPregnant.js";
 
 
 export {
@@ -16,5 +17,6 @@ export {
   checkCycleExistsForMonth,
   calculateFertileWindow,
   calculateEDD,
-  isDateInCurrentMonth
+  isDateInCurrentMonth,
+  isUserPregnant
 };

@@ -17,7 +17,11 @@ const PregnancySchema = new mongoose.Schema({
     recordedAt: {
         type: Date,
         default: Date.now
-    }
+    },
+    manualInput: {
+        type: Boolean,
+        default: false
+  }
 });
 
 const Pregnancy = mongoose.model("Pregnancy", PregnancySchema);

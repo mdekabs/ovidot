@@ -1,39 +1,54 @@
 import { Cycle, User, Pregnancy } from "../models/index.js";
-import { responseHandler, calculateFertileWindow, calculateEDD } from "../utils/index.js";
+import { isUserPregnant, responseHandler, calculateEDD, calculateFertileWindow } from "../utils/index.js";
 import HttpStatus from "http-status-codes";
+
 
 const PregnancyController = {
     createPregnancy: async (req, res) => {
         try {
             const userId = req.user.id;
+            const { manualPregnancy, manualDate } = req.body;
 
             const user = await User.findById(userId);
             if (!user) {
                 return responseHandler(res, HttpStatus.NOT_FOUND, "error", "User not found");
             }
 
-            const latestCycle = await Cycle.findOne({ userId }).sort({ startDate: -1 }).exec();
-            if (!latestCycle) {
-                return responseHandler(res, HttpStatus.NOT_FOUND, "error", "No cycle data found for user.");
+            let ovulationDate;
+
+            if (manualPregnancy && manualDate) {
+                // Use the manual date if provided
+                ovulationDate = new Date(manualDate);
+            } else {
+                // Use isUserPregnant utility function to check pregnancy status
+                const { pregnant, cycle } = await isUserPregnant(userId);
+                if (pregnant) {
+                    if (cycle) {
+                        ovulationDate = cycle.actualOvulationDate;
+                    } else {
+                        // Already pregnant, no need to create a new record
+                        return responseHandler(res, HttpStatus.CONFLICT, "error", "User already has a pregnancy record.");
+                    }
+                } else {
+                    return responseHandler(res, HttpStatus.BAD_REQUEST, "error", "Cannot record pregnancy as cycle data does not indicate a missed period.");
+                }
             }
 
-            const { nextCycleStartDate, actualOvulationDate } = latestCycle;
+            const edd = calculateEDD(ovulationDate);
+            const { fertileStart, fertileEnd } = calculateFertileWindow(ovulationDate);
 
-            if (nextCycleStartDate < new Date() && !latestCycle.actualFlowLength) {
-                const edd = calculateEDD(actualOvulationDate);
+            const newPregnancy = new Pregnancy({
+                userId,
+                lastOvulationDate: ovulationDate,
+                edd,
+                recordedAt: new Date(),
+                manualInput: manualPregnancy && manualDate ? true : false,
+                fertileStart,
+                fertileEnd
+            });
 
-                const newPregnancy = new Pregnancy({
-                    userId,
-                    lastOvulationDate: actualOvulationDate,
-                    edd,
-                    recordedAt: new Date()
-                });
-
-                await newPregnancy.save();
-                return responseHandler(res, HttpStatus.CREATED, "success", "Pregnancy recorded successfully.", { edd });
-            }
-
-            return responseHandler(res, HttpStatus.BAD_REQUEST, "error", "Cannot record pregnancy as cycle data does not indicate a missed period.");
+            await newPregnancy.save();
+            return responseHandler(res, HttpStatus.CREATED, "success", "Pregnancy recorded successfully.", { edd, fertileStart, fertileEnd });
         } catch (error) {
             console.error("Error creating pregnancy:", error);
             responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, "error", "Error creating pregnancy", { error });
@@ -59,23 +74,6 @@ const PregnancyController = {
         } catch (error) {
             console.error("Error retrieving pregnancy:", error);
             responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, "error", "Error retrieving pregnancy", { error });
-        }
-    },
-
-    getAllPregnancies: async (req, res) => {
-        try {
-            const userId = req.user.id;
-
-            const user = await User.findById(userId);
-            if (!user) {
-                return responseHandler(res, HttpStatus.NOT_FOUND, "error", "User not found");
-            }
-
-            const pregnancies = await Pregnancy.find({ userId });
-            responseHandler(res, HttpStatus.OK, "success", "Pregnancies retrieved successfully", { pregnancies });
-        } catch (error) {
-            console.error("Error retrieving pregnancies:", error);
-            responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, "error", "Error retrieving pregnancies", { error });
         }
     },
 
