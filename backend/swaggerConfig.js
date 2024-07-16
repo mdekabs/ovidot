@@ -8,7 +8,7 @@ export const swaggerOptions = {
     },
     servers: [
       {
-        url: "https://ovidot.onrender.com/api/v1",
+        url: "https://ovidot.onrender.com",
       },
     ],
     components: {
