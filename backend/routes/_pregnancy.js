@@ -25,10 +25,13 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               lastMenstruationDate:
+ *               manualPregnancy:
+ *                 type: boolean
+ *                 description: Indicates if the pregnancy is manually inputted
+ *               manualDate:
  *                 type: string
  *                 format: date
- *                 description: The date of the last menstruation
+ *                 description: The manually inputted date (optional)
  *     responses:
  *       201:
  *         description: Pregnancy recorded successfully
@@ -64,21 +67,6 @@ router.post("/", authenticationVerifier, checkExistingPregnancy, PregnancyContro
  *         description: Internal server error
  */
 router.get("/:pregnancyId", authenticationVerifier, PregnancyController.getPregnancy);
-
-/**
- * @swagger
- * /api/v1/pregnancy:
- *   get:
- *     summary: Get all pregnancies
- *     description: Retrieve all pregnancies for the authenticated user
- *     tags: [Pregnancies]
- *     responses:
- *       200:
- *         description: Pregnancies retrieved successfully
- *       500:
- *         description: Internal server error
- */
-router.get("/", authenticationVerifier, PregnancyController.getAllPregnancies);
 
 /**
  * @swagger
