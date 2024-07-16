@@ -185,3 +185,8 @@
 ::1 - - [13/Jul/2024:17:17:21 +0000] "POST /api/v1/cycles/predict HTTP/1.1" 201 217 "-" "PostmanRuntime/7.40.0"
 127.0.0.1 - - [14/Jul/2024:12:13:06 +0000] "POST /api/v1/cycles/predict HTTP/1.1" 409 66 "-" "PostmanRuntime/7.40.0"
 127.0.0.1 - - [14/Jul/2024:12:14:33 +0000] "GET /api/v1/cycles/ HTTP/1.1" 200 757 "-" "PostmanRuntime/7.40.0"
+127.0.0.1 - - [16/Jul/2024:12:41:20 +0000] "GET /api-docs/ HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+127.0.0.1 - - [16/Jul/2024:12:41:20 +0000] "GET /api-docs/swagger-ui-bundle.js HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+127.0.0.1 - - [16/Jul/2024:12:41:20 +0000] "GET /api-docs/swagger-ui-init.js HTTP/1.1" 200 27280 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+127.0.0.1 - - [16/Jul/2024:12:41:20 +0000] "GET /api-docs/swagger-ui-standalone-preset.js HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+127.0.0.1 - - [16/Jul/2024:12:41:20 +0000] "GET /api-docs/swagger-ui.css HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"

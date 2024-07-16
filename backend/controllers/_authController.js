@@ -16,6 +16,11 @@ const JWT_EXPIRATION = "1d";
 const AuthController = {
     create_user: async (req, res, next) => {
         try {
+            const existingUser = await User.findOne({ $or: [{ username: req.body.username }, { email: req.body.email }] });
+            if (existingUser) {
+                return responseHandler(res, HttpStatus.CONFLICT, "error", "Username or email already exists. login or create a new account.");
+            }
+
             const hashedPassword = await bcrypt.hash(req.body.password, PASSWORD_SALT_ROUNDS);
             const newUser = new User({
                 username: req.body.username,
@@ -32,8 +37,12 @@ const AuthController = {
     login_user: async (req, res) => {
         try {
             const user = await User.findOne({ username: req.body.username });
-            if (!user || !bcrypt.compareSync(req.body.password, user.password)) {
-                return responseHandler(res, HttpStatus.UNAUTHORIZED, "error", "Invalid username or password");
+            if (!user) {
+                return responseHandler(res, HttpStatus.UNAUTHORIZED, "error", "Invalid username");
+            }
+            const passwordIsValid = await bcrypt.compare(req.body.password, user.password);
+            if (!passwordIsValid) {
+                return responseHandler(res, HttpStatus.UNAUTHORIZED, "error", "Invalid password");
             }
 
             const accessToken = jwt.sign(
