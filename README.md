@@ -1,5 +1,5 @@
 # Ovidot
-
+![Ovidot Logo]https://www.figma.com/proto/FCKjvh1jZpkxOU8vSAAuwO/ovidot?node-id=192-1595&t=malJCdxF6cTN1GtJ-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=192%3A1521()
 ## Overview
 
 Welcome to **Ovidot**, the comprehensive cycle management service designed to simplify and enhance menstrual health tracking. Ovidot leverages advanced algorithms to predict ovulation dates, identify cycle irregularities, and provide valuable insights for users. Our service is built with a robust backend, ensuring secure and efficient data management for all users.
