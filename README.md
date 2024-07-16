@@ -46,9 +46,15 @@ Explore the full API documentation via Swagger: http:localhost:${port}/api-docs
     Create a `.env` file in the root directory and add the following:
 
     ```sh
-    MONGO_URI=your_mongodb_uri
-    JWT_SECRET=your_jwt_secret
-    REDIS_URL=redis://localhost:6379
+    DB_URI
+    SMTP_HOST
+    SMTP_PORT
+    SMTP_SERVICE
+    SMTP_MAIL
+    SMTP_PASSWORD
+    PORT
+    JWT_SECRET
+    REDIS_URL
     ```
 
 4. **Start the server:**
