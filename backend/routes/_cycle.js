@@ -1,7 +1,7 @@
-import express from "express";
 import Joi from "joi";
 import { authenticationVerifier, validateRequest } from "../middlewares/index.js";
 import { CycleController } from "../controllers/index.js";
+
 
 const router = express.Router();
 
@@ -25,8 +25,6 @@ const predictOvulationSchema = Joi.object({
  *     summary: Predict ovulation
  *     description: Predict ovulation date and cycle length based on user data
  *     tags: [Cycles]
- *     security:
- *       - accessToken: []  // Added security scheme reference here
  *     requestBody:
  *       required: true
  *       content:
@@ -64,8 +62,6 @@ const updateCycleSchema = Joi.object({
  *     summary: Update user cycle
  *     description: Update user cycle details including actual ovulation date and start date
  *     tags: [Cycles]
- *     security:
- *       - accessToken: []  // Added security scheme reference here
  *     requestBody:
  *       required: true
  *       content:
@@ -97,8 +93,6 @@ router.post('/update', authenticationVerifier, validateRequest(updateCycleSchema
  *     summary: Delete a cycle
  *     description: Delete a specific cycle by ID
  *     tags: [Cycles]
- *     security:
- *       - accessToken: []  // Added security scheme reference here
  *     parameters:
  *       - in: path
  *         name: cycleId
@@ -123,8 +117,6 @@ router.delete('/:cycleId', authenticationVerifier, CycleController.deleteCycle);
  *     summary: Get a cycle
  *     description: Retrieve a specific cycle by ID
  *     tags: [Cycles]
- *     security:
- *       - accessToken: []  // Added security scheme reference here
  *     parameters:
  *       - in: path
  *         name: cycleId
@@ -149,8 +141,6 @@ router.get('/:cycleId', authenticationVerifier, CycleController.getCycle);
  *     summary: Get all cycles
  *     description: Retrieve all cycles for the authenticated user
  *     tags: [Cycles]
- *     security:
- *       - accessToken: []  // Added security scheme reference here
  *     responses:
  *       200:
  *         description: Cycles retrieved successfully
@@ -166,8 +156,6 @@ router.get('/', authenticationVerifier, CycleController.getAllCycles);
  *     summary: Get cycles by month
  *     description: Retrieve cycles for the authenticated user for a specific month and year
  *     tags: [Cycles]
- *     security:
- *       - accessToken: []  // Added security scheme reference here
  *     parameters:
  *       - in: path
  *         name: year
