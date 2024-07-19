@@ -107,6 +107,9 @@ const CycleController = {
             if (actualOvulationDateObj < startDateObj) {
                 return responseHandler(res, HttpStatus.BAD_REQUEST, "error", "Actual ovulation date cannot be before the start date.");
             }
+            if (!isDateInCurrentMonth(startDate)) {
+                return responseHandler(res, HttpStatus.BAD_REQUEST, "error", "Cannot update cycle to a previous or future month.");
+            }
 
             const nextCycleStartDate = new Date(actualOvulationDateObj.getTime() + OVULATION_INTERVAL_DAYS * MILLISECONDS_IN_A_DAY);
             const actualCycleLength = Math.round((nextCycleStartDate - startDateObj) / MILLISECONDS_IN_A_DAY);
