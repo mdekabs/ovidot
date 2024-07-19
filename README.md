@@ -8,9 +8,9 @@ Welcome to **Ovidot**, the comprehensive cycle management service designed to si
 - **User Management**: Admin capabilities to manage users and retrieve statistics.
 - **Authentication**: Secure registration, login, and password management.
 - **Redis Caching**: Improve performance with Redis caching for frequently accessed data.
-- **Emergency Contacts Management: Manage emergency contacts for users.
-- **Mood Entries Management: Record and retrieve mood entries for users.
-- **Pregnancy Management: Record, retrieve, and delete pregnancies for users.
+- **Emergency Contacts Management**: Manage emergency contacts for users.
+- **Mood Entries Management**: Record and retrieve mood entries for users.
+- **Pregnancy Management**: Record, retrieve, and delete pregnancies for users.
 
 
 ## Technologies Used
