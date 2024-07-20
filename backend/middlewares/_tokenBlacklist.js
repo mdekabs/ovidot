@@ -4,6 +4,13 @@ dotenv.config();
 
 const blacklistPath = process.env.BLACKLIST;
 
+// Debug statement to verify the path
+console.log(`Blacklist path: ${blacklistPath}`);
+
+if (!blacklistPath) {
+    throw new Error('BLACKLIST path is not defined in the environment variables');
+}
+
 /**
  * Function that reads the blacklist JSON file.
  * @returns {Promise<Array>} - A promise that resolves to an array of tokens or an empty list.
