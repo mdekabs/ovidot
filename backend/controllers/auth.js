@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import crypto from "crypto";
 import { responseHandler, emailQueue, generatePasswordResetEmail } from "../utils/index.js";
-import {updateBlacklist} from "../middlewares/index.js";
+
 dotenv.config();
 
 const PASSWORD_SALT_ROUNDS = 10;
@@ -59,18 +59,7 @@ const AuthController = {
     },
 
     logout_user: async (req, res) => {
-        try {
-            const authHeader = req.headers.authorization;
-            if (authHeader) {
-                const token = authHeader.split(' ')[1];
-                await updateBlacklist(token);
-                responseHandler(res, HttpStatus.OK, "success", "Successfully logged out");
-            } else {
-                responseHandler(res, HttpStatus.UNAUTHORIZED, "error", "Authorization header not found");
-            }
-        } catch (err) {
-            responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, "error", "Something went wrong, please try again", { error: err.message });
-        }
+        responseHandler(res, HttpStatus.OK, "success", "Successfully logged out");
     },
 
     forgot_password: async (req, res) => {
