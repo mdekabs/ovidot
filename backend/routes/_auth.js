@@ -98,6 +98,22 @@ router.post('/login', validateRequest(loginSchema), AuthController.login_user);
 
 /**
  * @swagger
+ * /auth/logout:
+ *   post:
+ *     summary: Logout the current user
+ *     tags: [Authentication]
+ *     responses:
+ *       200:
+ *         description: User logged out successfully
+ *       401:
+ *         description: Unauthorized - Authorization header not found
+ *       500:
+ *         description: Internal server error
+ */
+router.post('/logout', AuthController.logout_user);
+
+/**
+ * @swagger
  * /auth/forgot-password:
  *   post:
  *     summary: Send reset password email
@@ -151,7 +167,7 @@ router.post('/forgot-password', validateRequest(forgotPasswordSchema), AuthContr
  *       200:
  *         description: Password has been reset successfully
  *       400:
- *         description: Password reset token is invalid or has expired
+ *         description: Bad request - Password reset token is invalid or has expired
  *       500:
  *         description: Internal server error
  */
