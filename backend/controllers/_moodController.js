@@ -1,4 +1,4 @@
-import { MoodEntry } from "../models/index.js";
+import { MoodEntry, User } from "../models/index.js";
 import { responseHandler } from "../utils/index.js";
 import HttpStatus from "http-status-codes";
 
