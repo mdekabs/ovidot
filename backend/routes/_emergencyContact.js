@@ -5,7 +5,7 @@ import { EmergencyContactController } from "../controllers/index.js";
 
 const router = express.Router();
 
-// Define schema for emergency contact creation
+// Define schema for emergency contact creation and update
 const emergencyContactSchema = Joi.object({
     contactName: Joi.string().required(),
     contactNumber: Joi.string().required(),
@@ -43,14 +43,49 @@ const emergencyContactSchema = Joi.object({
  *                 type: string
  *                 description: Relationship with the emergency contact
  *     responses:
- *       200:
+ *       201:
  *         description: Emergency contact created successfully
  *       400:
- *         description: Bad request - Invalid input data
+ *         description: Bad request - Invalid input data or contact already exists
  *       500:
  *         description: Internal server error
  */
 router.post('/', authenticationVerifier, validateRequest(emergencyContactSchema), EmergencyContactController.createEmergencyContact);
+
+/**
+ * @swagger
+ * /api/v1/emergency-contacts:
+ *   put:
+ *     summary: Update emergency contact
+ *     description: Update the emergency contact for the authenticated user
+ *     tags: [Emergency Contacts]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               contactName:
+ *                 type: string
+ *                 description: Name of the emergency contact
+ *               contactNumber:
+ *                 type: string
+ *                 description: Phone number of the emergency contact
+ *               relationship:
+ *                 type: string
+ *                 description: Relationship with the emergency contact
+ *     responses:
+ *       200:
+ *         description: Emergency contact updated successfully
+ *       400:
+ *         description: Bad request - Invalid input data
+ *       404:
+ *         description: Emergency contact not found
+ *       500:
+ *         description: Internal server error
+ */
+router.put('/', authenticationVerifier, validateRequest(emergencyContactSchema), EmergencyContactController.updateEmergencyContact);
 
 /**
  * @swagger
