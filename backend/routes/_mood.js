@@ -21,7 +21,7 @@ const moodEntrySchema = Joi.object({
 
 /**
  * @swagger
- * /api/v1/mood-entries:
+ * /api/v1/mood:
  *   post:
  *     summary: Create mood entry
  *     description: Create a new mood entry for the authenticated user
@@ -56,7 +56,7 @@ router.post('/', authenticationVerifier, validateRequest(moodEntrySchema), MoodC
 
 /**
  * @swagger
- * /api/v1/mood-entries:
+ * /api/v1/mood:
  *   get:
  *     summary: Get mood entries
  *     description: Retrieve all mood entries for the authenticated user
