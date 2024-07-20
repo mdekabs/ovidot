@@ -60,9 +60,8 @@ const AuthController = {
 
     logout_user: async (req, res) => {
         try {
-            const authHeader = req.headers.authorization;
-            if (authHeader) {
-                const token = authHeader.split(' ')[1];
+            const token = req.header("Authorization")?.substring(7);
+            if (token) {
                 await updateBlacklist(token);
                 responseHandler(res, HttpStatus.OK, "success", "Successfully logged out");
             } else {
