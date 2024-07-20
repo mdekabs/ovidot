@@ -107,7 +107,7 @@ const CycleController = {
             if (actualOvulationDateObj < startDateObj) {
                 return responseHandler(res, HttpStatus.BAD_REQUEST, "error", "Actual ovulation date cannot be before the start date.");
             }
-            if (!isDateInCurrentMonth(startDate)) {
+            if (!isDateInCurrentMonth(startDateObj)) {
                 return responseHandler(res, HttpStatus.BAD_REQUEST, "error", "Cannot update cycle to a previous or future month.");
             }
 
