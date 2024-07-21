@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { isTokenBlacklisted } from "./_tokenBlacklist.js";
 
 dotenv.config();
 
@@ -9,15 +10,26 @@ if (!jwtSecret) {
 }
 
 /* JWT token verification middleware */
-const authenticationVerifier = (req, res, next) => {
+const authenticationVerifier = async (req, res, next) => {
     const authHeader = req.headers.authorization;
-  if (authHeader) {
-        const token = authHeader && authHeader.split(' ')[1];
+
+    if (authHeader) {
+        const token = authHeader.split(' ')[1];
+
         if (!token) {
             console.log("Token not found in auth header");
             return res.status(401).json("Token not found");
         }
+
         console.log("Token received:", token);
+
+        // Check if the token is blacklisted
+        const blacklisted = await isTokenBlacklisted(token);
+        if (blacklisted) {
+            console.error("Token is blacklisted");
+            return res.status(401).json("Invalid token");
+        }
+
         jwt.verify(token, jwtSecret, (err, user) => {
             if (err) {
                 console.error("Token verification failed:", err);
