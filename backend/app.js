@@ -13,8 +13,6 @@ import { Pagination, checkCache, cacheResponse } from "./middlewares/index.js";
 import { swaggerOptions } from "./swaggerConfig.js";
 import { authRoute, userRoute, cycleRoute, pregnancyRoute, moodRoute, emergencyContactRoute } from "./routes/index.js";
 
-
-
 dotenv.config();
 
 const app = express();
@@ -52,7 +50,6 @@ app.use("/api/v1/pregnancy", pregnancyRoute);
 app.use("/api/v1/mood", moodRoute);
 app.use("/api/v1/emergency-contacts", emergencyContactRoute);
 
-
 // Database connection
 async function connectToDatabase() {
   try {
@@ -74,6 +71,8 @@ app.use((err, req, res, next) => {
 
 // Start the server on HTTP
 const PORT = process.env.PORT;
-app.listen(PORT, '0.0.0.0', () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is listening on port ${PORT} with HTTP`);
 });
+
+export { app, server };
