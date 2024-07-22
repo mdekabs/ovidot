@@ -2,7 +2,6 @@ import { Cycle, User, Pregnancy } from "../models/index.js";
 import { isUserPregnant, responseHandler, calculateEDD, calculateFertileWindow } from "../utils/index.js";
 import HttpStatus from "http-status-codes";
 
-
 const PregnancyController = {
     createPregnancy: async (req, res) => {
         try {
@@ -58,22 +57,21 @@ const PregnancyController = {
     getPregnancy: async (req, res) => {
         try {
             const userId = req.user.id;
-            const { pregnancyId } = req.params;
 
             const user = await User.findById(userId);
             if (!user) {
                 return responseHandler(res, HttpStatus.NOT_FOUND, "error", "User not found");
             }
 
-            const pregnancy = await Pregnancy.findOne({ userId, _id: pregnancyId });
-            if (!pregnancy) {
-                return responseHandler(res, HttpStatus.NOT_FOUND, "error", "Pregnancy not found");
+            const pregnancies = await Pregnancy.find({ userId });
+            if (!pregnancies || pregnancies.length === 0) {
+                return responseHandler(res, HttpStatus.NOT_FOUND, "error", "No pregnancies found");
             }
 
-            responseHandler(res, HttpStatus.OK, "success", "Pregnancy retrieved successfully", { pregnancy });
+            responseHandler(res, HttpStatus.OK, "success", "Pregnancies retrieved successfully", { pregnancies });
         } catch (error) {
-            console.error("Error retrieving pregnancy:", error);
-            responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, "error", "Error retrieving pregnancy", { error });
+            console.error("Error retrieving pregnancies:", error);
+            responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, "error", "Error retrieving pregnancies", { error });
         }
     },
 
