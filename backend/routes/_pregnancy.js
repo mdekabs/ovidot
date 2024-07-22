@@ -7,7 +7,7 @@ const router = express.Router();
 /**
  * @swagger
  * tags:
- *   name: Pregnancies
+ *   name: Pregnancy
  *   description: User pregnancy management
  */
 
