@@ -17,7 +17,7 @@ const router = express.Router();
  *   post:
  *     summary: Create pregnancy
  *     description: Record a new pregnancy for the user
- *     tags: [Pregnancies]
+ *     tags: [Pregnancy]
  *     requestBody:
  *       required: true
  *       content:
@@ -46,27 +46,21 @@ router.post("/", authenticationVerifier, checkExistingPregnancy, PregnancyContro
 
 /**
  * @swagger
- * /api/v1/pregnancy/{pregnancyId}:
+ * /api/v1/pregnancy:
  *   get:
- *     summary: Get pregnancy
- *     description: Retrieve a specific pregnancy by ID
- *     tags: [Pregnancies]
- *     parameters:
- *       - in: path
- *         name: pregnancyId
- *         required: true
- *         schema:
- *           type: string
- *         description: The pregnancy ID
+ *     summary: Get all pregnancies
+ *     description: Retrieve all pregnancies for the authenticated user
+ *     tags: [Pregnancy]
  *     responses:
  *       200:
- *         description: Pregnancy retrieved successfully
+ *         description: Pregnancies retrieved successfully
  *       404:
- *         description: Pregnancy not found
+ *         description: No pregnancies found
  *       500:
  *         description: Internal server error
  */
-router.get("/:pregnancyId", authenticationVerifier, PregnancyController.getPregnancy);
+router.get("/", authenticationVerifier, PregnancyController.getPregnancy);
+
 
 /**
  * @swagger
@@ -74,7 +68,7 @@ router.get("/:pregnancyId", authenticationVerifier, PregnancyController.getPregn
  *   delete:
  *     summary: Delete a pregnancy
  *     description: Delete a specific pregnancy by ID
- *     tags: [Pregnancies]
+ *     tags: [Pregnancy]
  *     parameters:
  *       - in: path
  *         name: pregnancyId
