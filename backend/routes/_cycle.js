@@ -21,7 +21,7 @@ const predictOvulationSchema = Joi.object({
 
 /**
  * @swagger
- * /api/v1/cycles/predict:
+ * /cycles/predict:
  *   post:
  *     summary: Predict ovulation
  *     description: Predict ovulation date and cycle length based on user data
