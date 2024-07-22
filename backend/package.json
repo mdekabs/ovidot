@@ -5,7 +5,7 @@
   "description": "",
   "main": "./app.js",
   "scripts": {
-    "start": "nodemon ./app.js && nodemon ./worker.js"
+    "start": "nodemon ./app.js && nodemon ./worker.js",
     "test": "mocha 'test/**/*.test.mjs'"
   },
   "author": "Ekabua mawoda",
