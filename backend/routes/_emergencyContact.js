@@ -21,7 +21,7 @@ const emergencyContactSchema = Joi.object({
 
 /**
  * @swagger
- * /api/v1/emergency-contacts:
+ * /emergency-contacts:
  *   post:
  *     summary: Create emergency contact
  *     description: Create a new emergency contact for the authenticated user
@@ -54,7 +54,7 @@ router.post('/', authenticationVerifier, validateRequest(emergencyContactSchema)
 
 /**
  * @swagger
- * /api/v1/emergency-contacts:
+ * /emergency-contacts:
  *   put:
  *     summary: Update emergency contact
  *     description: Update the emergency contact for the authenticated user
@@ -89,7 +89,7 @@ router.put('/', authenticationVerifier, validateRequest(emergencyContactSchema),
 
 /**
  * @swagger
- * /api/v1/emergency-contacts:
+ * /emergency-contacts:
  *   get:
  *     summary: Get emergency contacts
  *     description: Retrieve all emergency contacts for the authenticated user

@@ -58,7 +58,7 @@ const updateCycleSchema = Joi.object({
 
 /**
  * @swagger
- * /api/v1/cycles/update:
+ * /cycles/update:
  *   post:
  *     summary: Update user cycle
  *     description: Update user cycle details including actual ovulation date and start date
@@ -89,7 +89,7 @@ router.post('/update', authenticationVerifier, validateRequest(updateCycleSchema
 
 /**
  * @swagger
- * /api/v1/cycles/{cycleId}:
+ * /cycles/{cycleId}:
  *   delete:
  *     summary: Delete a cycle
  *     description: Delete a specific cycle by ID
@@ -113,7 +113,7 @@ router.delete('/:cycleId', authenticationVerifier, CycleController.deleteCycle);
 
 /**
  * @swagger
- * /api/v1/cycles/{cycleId}:
+ * /cycles/{cycleId}:
  *   get:
  *     summary: Get a cycle
  *     description: Retrieve a specific cycle by ID
@@ -137,7 +137,7 @@ router.get('/:cycleId', authenticationVerifier, CycleController.getCycle);
 
 /**
  * @swagger
- * /api/v1/cycles:
+ * /cycles:
  *   get:
  *     summary: Get all cycles
  *     description: Retrieve all cycles for the authenticated user
@@ -152,7 +152,7 @@ router.get('/', authenticationVerifier, CycleController.getAllCycles);
 
 /**
  * @swagger
- * /api/v1/cycles/{year}/{month}:
+ * /cycles/{year}/{month}:
  *   get:
  *     summary: Get cycles by month
  *     description: Retrieve cycles for the authenticated user for a specific month and year

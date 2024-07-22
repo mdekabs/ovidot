@@ -13,7 +13,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/v1/pregnancy:
+ * /pregnancy:
  *   post:
  *     summary: Create pregnancy
  *     description: Record a new pregnancy for the user
@@ -46,7 +46,7 @@ router.post("/", authenticationVerifier, checkExistingPregnancy, PregnancyContro
 
 /**
  * @swagger
- * /api/v1/pregnancy:
+ * /pregnancy:
  *   get:
  *     summary: Get all pregnancies
  *     description: Retrieve all pregnancies for the authenticated user
@@ -64,7 +64,7 @@ router.get("/", authenticationVerifier, PregnancyController.getPregnancy);
 
 /**
  * @swagger
- * /api/v1/pregnancy/{pregnancyId}:
+ * /pregnancy/{pregnancyId}:
  *   delete:
  *     summary: Delete a pregnancy
  *     description: Delete a specific pregnancy by ID
