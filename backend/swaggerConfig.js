@@ -2,7 +2,7 @@ export const swaggerOptions = {
   swaggerDefinition: {
     openapi: "3.0.0",
     info: {
-      title: "Ovidot: Each flow has a story! Personalized insight into your women's health and wellness!",
+      title: "Ovidot: Each flow has a story! Women's health and wellness personalized!",
       version: "1.0.0",
       description: "API documentation",
     },
