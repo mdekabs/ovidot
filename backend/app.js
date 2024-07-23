@@ -9,14 +9,15 @@ import helmet from "helmet";
 import fs from "fs";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
-import swaggerUiThemes from "swagger-ui-themes";
-import { Pagination, checkCache, cacheResponse } from "./middlewares/index.js";
+import { SwaggerTheme, SwaggerThemeNameEnum } from "swagger-themes";
 import { swaggerOptions } from "./swaggerConfig.js";
+import { Pagination, checkCache, cacheResponse } from "./middlewares/index.js";
 import { authRoute, userRoute, cycleRoute, pregnancyRoute, moodRoute, emergencyContactRoute } from "./routes/index.js";
 
 dotenv.config();
 
 const app = express();
+const theme = new SwaggerTheme();
 
 // Enable CORS
 app.use(cors());
@@ -41,9 +42,11 @@ app.use(morgan('combined', { stream: logStream }));
 
 // Swagger setup
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
-  customCss: swaggerUiThemes.getTheme('dark-mode')
-}));
+const options = {
+  explorer: true,
+  customCss: theme.getBuffer(SwaggerThemeNameEnum.DARK)
+};
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs, options));
 
 // Route definitions
 app.use("/api/v1/auth", authRoute);

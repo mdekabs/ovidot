@@ -27,8 +27,8 @@
     "nodemailer": "^6.9.14",
     "redis": "^4.6.15",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1",
-    "swagger-ui-themes": "^3.0.1"
+    "swagger-themes": "^1.4.3",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "chai": "^5.1.1",
