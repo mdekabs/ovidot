@@ -5,10 +5,10 @@
   "description": "",
   "main": "./app.js",
   "scripts": {
-    "start": "nodemon ./app.js && nodemon ./worker.js",
+    "start": "concurrently \"nodemon ./app.js\" \"nodemon ./worker.js\"",
     "test": "mocha 'test/**/*.test.mjs'"
   },
-  "author": "Ekabua mawoda",
+  "author": "Ekabua Mawoda",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -34,6 +34,7 @@
     "chai": "^5.1.1",
     "dotenv": "^16.4.5",
     "mocha": "^10.7.0",
-    "supertest": "^7.0.0"
+    "supertest": "^7.0.0",
+    "concurrently": "^7.0.0"
   }
 }
