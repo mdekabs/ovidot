@@ -3,7 +3,6 @@ import Joi from "joi";
 import { authenticationVerifier, validateRequest } from "../middlewares/index.js";
 import { CycleController } from "../controllers/index.js";
 
-
 const router = express.Router();
 
 /**
@@ -53,7 +52,11 @@ router.post('/predict', authenticationVerifier, validateRequest(predictOvulation
 // Define schema for updating user cycle
 const updateCycleSchema = Joi.object({
     actualOvulationDate: Joi.date().required(),
-    actualFlowLength: Joi.number().required()
+    actualFlowLength: Joi.number().required(),
+    feedback: Joi.object({
+        accuracy: Joi.number().min(1).max(5).required(),
+        comments: Joi.string()
+    }).optional()
 });
 
 /**
@@ -77,6 +80,15 @@ const updateCycleSchema = Joi.object({
  *               actualFlowLength:
  *                 type: number
  *                 description: Length of menstrual flow in days
+ *               feedback:
+ *                 type: object
+ *                 properties:
+ *                   accuracy:
+ *                     type: number
+ *                     description: Feedback accuracy rating (1-5)
+ *                   comments:
+ *                     type: string
+ *                     description: Additional comments
  *     responses:
  *       200:
  *         description: User cycle updated successfully
