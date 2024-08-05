@@ -1,9 +1,13 @@
 // utils.js
 
 // Constants
-const MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000;
-const DEFAULT_IRREGULAR_THRESHOLD = 7;
-const OVULATION_INTERVAL_DAYS = 14;
+export const constants = {
+    MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000,
+    
+    DEFAULT_IRREGULAR_THRESHOLD = 7,
+    OVULATION_INTERVAL_DAYS = 14,
+};
+
 
 export const calculateStandardDeviation = (arr) => {
     const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
