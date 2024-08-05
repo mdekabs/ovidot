@@ -10,7 +10,8 @@ import {
   adjustPredictionBasedOnHistory,
   checkCycleExistsForMonth,
   adjustPredictionBasedOnFeedback,
-  isDateInCurrentMonth 
+  isDateInCurrentMonth,
+  constants
 } from '../utils/index.js';
 
 
@@ -41,7 +42,7 @@ const CycleController = {
             }
 
             const previousCycles = await Cycle.find({ userId });
-            const predictedCycleLength = adjustPredictionBasedOnHistory(previousCycles, OVULATION_INTERVAL_DAYS, flowLength);
+            const predictedCycleLength = adjustPredictionBasedOnHistory(previousCycles, constants.OVULATION_INTERVAL_DAYS, flowLength);
             const finalPredictedCycleLength = await adjustPredictionBasedOnFeedback(userId, predictedCycleLength);
 
 
@@ -100,8 +101,8 @@ const CycleController = {
                 return responseHandler(res, HttpStatus.BAD_REQUEST, "error", "Actual ovulation date cannot be before the start date.");
             }
 
-            const nextCycleStartDate = new Date(actualOvulationDateObj.getTime() + OVULATION_INTERVAL_DAYS * MILLISECONDS_IN_A_DAY);
-            const actualCycleLength = Math.round((nextCycleStartDate - startDateObj) / MILLISECONDS_IN_A_DAY);
+            const nextCycleStartDate = new Date(actualOvulationDateObj.getTime() + constants.OVULATION_INTERVAL_DAYS * constants.MILLISECONDS_IN_A_DAY);
+            const actualCycleLength = Math.round((nextCycleStartDate - startDateObj) / constants.MILLISECONDS_IN_A_DAY);
 
             const previousCycleLengths = [...userCycle.previousCycleLengths, actualCycleLength];
             const mean = previousCycleLengths.reduce((acc, val) => acc + val, 0) / previousCycleLengths.length;
