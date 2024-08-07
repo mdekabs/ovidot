@@ -26,7 +26,7 @@ const CycleController = {
             const userId = req.user.id;
 
             if (!isDateInCurrentMonth(startDate)) {
-                return responseHandler(res, HttpStatus.BAD_REQUEST, "error", "Start date must be within the current month.");
+                return responseHandler(res, HttpStatus.BAD_REQUEST, "error", "Start date must be within the current month and not greater than the date now.");
             }
 
             const [user, existingCycle] = await Promise.all([

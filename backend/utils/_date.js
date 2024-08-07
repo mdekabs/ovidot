@@ -1,9 +1,19 @@
 export const isDateInCurrentMonth = (date) => {
-    const dateObj = new Date(date);
-    const now = new Date();
+    try {
+        const dateObj = new Date(date);
+        const now = new Date();
 
-    const isSameYear = dateObj.getFullYear() === now.getFullYear();
-    const isSameMonth = dateObj.getMonth() === now.getMonth();
+        if (isNaN(dateObj.getTime())) {
+            throw new Error('Invalid date');
+        }
 
-    return isSameYear && isSameMonth;
+        const isSameYear = dateObj.getFullYear() === now.getFullYear();
+        const isSameMonth = dateObj.getMonth() === now.getMonth();
+        const isNotFutureDate = dateObj <= now;
+
+        return isSameYear && isSameMonth && isNotFutureDate;
+    } catch (error) {
+        console.error('Error in isDateInCurrentMonth:', error);
+        return false;
+    }
 };
