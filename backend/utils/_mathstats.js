@@ -1,4 +1,4 @@
-// utils.js
+import { Feedback } from "../models/index.js";
 
 // Constants
 const MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000;
@@ -44,6 +44,43 @@ export const checkIrregularity = (previousCycleLengths, predictedCycleLength, fl
 
 export const adjustPredictionBasedOnHistory = (previousCycles, predictedCycleLength, flowLength) => {
     const cycleLengths = previousCycles.map(cycle => cycle.predictedCycleLength);
-    const averageLength = cycleLengths.reduce((acc, val) => acc + val, 0) / cycleLengths.length;
+    if (cycleLengths.length === 0) {
+        return predictedCycleLength; // If no previous cycles, return the provided predictedCycleLength
+    }
+
+    const validCycleLengths = cycleLengths.filter(length => typeof length === 'number' && !isNaN(length));
+    if (validCycleLengths.length === 0) {
+        return predictedCycleLength; // If all values are invalid, return the provided predictedCycleLength
+    }
+
+    const averageLength = validCycleLengths.reduce((acc, val) => acc + val, 0) / validCycleLengths.length;
     return (predictedCycleLength + averageLength) / 2;
+};
+
+export const adjustPredictionBasedOnFeedback = async (userId, predictedCycleLength) => {
+    if (typeof predictedCycleLength !== 'number' || isNaN(predictedCycleLength)) {
+        console.error('Invalid predictedCycleLength:', predictedCycleLength);
+        return predictedCycleLength; // Return as is or handle appropriately
+    }
+
+    try {
+        const feedbacks = await Feedback.find({ userId });
+
+        if (feedbacks.length > 0) {
+            const totalAccuracy = feedbacks.reduce((acc, feedback) => acc + feedback.accuracy, 0);
+            const averageAccuracy = totalAccuracy / feedbacks.length;
+
+            // Adjust prediction: Higher accuracy leads to smaller adjustments, lower accuracy leads to larger adjustments
+            const adjustmentFactor = (5 - averageAccuracy) / 5; // Example: Average accuracy of 3 would lead to an adjustmentFactor of 0.4
+            const adjustedPrediction = predictedCycleLength * (1 + adjustmentFactor);
+
+            return adjustedPrediction;
+        }
+
+        return predictedCycleLength;
+
+    } catch (error) {
+        console.error('Error adjusting prediction based on feedback:', error);
+        throw error;
+    }
 };

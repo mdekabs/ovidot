@@ -8,8 +8,8 @@ import calculateFertileWindow from "./_calculateFertileWindow.js";
 import { isDateInCurrentMonth } from "./_date.js";
 import isUserPregnant from "./_isUserPregnant.js";
 import { encryptData, decryptData } from "./_security.js";  // Import from security.js
-import { calculateStandardDeviation, calculateCycleDates, calculateDynamicThreshold, checkIrregularity, adjustPredictionBasedOnHistory, CONSTANTS } from "./_mathstats.js";
-import { adjustPredictionBasedOnFeedback } from "./_adjustPredictionBasedOnFeedback.js";
+import { calculateStandardDeviation, adjustPredictionBasedOnFeedback, calculateCycleDates, calculateDynamicThreshold, checkIrregularity, adjustPredictionBasedOnHistory, CONSTANTS } from "./_mathstats.js";
+
 
 
 
