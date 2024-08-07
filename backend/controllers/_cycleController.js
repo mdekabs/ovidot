@@ -26,7 +26,7 @@ const CycleController = {
             const userId = req.user.id;
 
             if (!isDateInCurrentMonth(startDate)) {
-                return responseHandler(res, HttpStatus.BAD_REQUEST, "error", "Start date must be within the current month and not greater than the date now.");
+                return responseHandler(res, HttpStatus.BAD_REQUEST, "error", "Start date must be within the current month and not greater than the current date.");
             }
 
             const [user, existingCycle] = await Promise.all([
@@ -92,9 +92,14 @@ const CycleController = {
 
             const startDateObj = new Date(userCycle.startDate);
             const actualOvulationDateObj = new Date(actualOvulationDate);
+            const now = new Date();
 
-            if (actualOvulationDateObj < startDateObj) {
-                return responseHandler(res, HttpStatus.BAD_REQUEST, "error", "Actual ovulation date cannot be before the start date.");
+            if (actualOvulationDateObj < startDateObj || actualOvulationDateObj > now) {
+                return responseHandler(res, HttpStatus.BAD_REQUEST, "error", 
+                    actualOvulationDateObj < startDateObj 
+                    ? "Actual ovulation date cannot be before the start date." 
+                    : "Actual ovulation date cannot be in the future."
+                );
             }
 
             const nextCycleStartDate = new Date(actualOvulationDateObj.getTime() + OVULATION_INTERVAL_DAYS * MILLISECONDS_IN_A_DAY);
