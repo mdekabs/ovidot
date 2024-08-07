@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+import HttpStatus from "http-status-codes";
 import { Cycle, User } from "../models/index.js";
 import { 
   responseHandler,
@@ -11,6 +13,9 @@ import {
   isDateInCurrentMonth,
   CONSTANTS
 } from '../utils/index.js';
+
+
+dotenv.config();
 
 const { OVULATION_INTERVAL_DAYS, MILLISECONDS_IN_A_DAY } = CONSTANTS;
 
