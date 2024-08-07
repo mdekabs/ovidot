@@ -1,5 +1,11 @@
 import mongoose from 'mongoose';
 import { encryptData, decryptData } from '../utils/index.js';
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const encryptionKey = process.env.ENCRYPTION_KEY;
+
 
 const cycleSchema = new mongoose.Schema({
     userId: {
@@ -77,9 +83,9 @@ cycleSchema.pre('save', function(next) {
 // Decryption middleware
 cycleSchema.post('init', function(doc) {
     doc.startDate = new Date(decryptData(doc.startDate, doc.encryptionKey));
-    doc.flowLength = parseInt(decryptData(doc.flowLength, doc.encryptionKey));
-    doc.predictedCycleLength = parseInt(decryptData(doc.predictedCycleLength, doc.encryptionKey));
-    doc.previousCycleLengths = doc.previousCycleLengths.map(length => parseInt(decryptData(length, doc.encryptionKey)));
+    doc.flowLength = parseInt(decryptData(doc.flowLength, doc.encryptionKey), 10);
+    doc.predictedCycleLength = parseInt(decryptData(doc.predictedCycleLength, doc.encryptionKey), 10);
+    doc.previousCycleLengths = doc.previousCycleLengths.map(length => parseInt(decryptData(length, doc.encryptionKey), 10));
     if (doc.actualOvulationDate) {
         doc.actualOvulationDate = new Date(decryptData(doc.actualOvulationDate, doc.encryptionKey));
     }
