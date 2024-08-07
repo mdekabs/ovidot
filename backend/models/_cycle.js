@@ -42,29 +42,56 @@ const cycleSchema = new mongoose.Schema({
     }
 });
 
-cycleSchema.methods.encryptFields = function (encryptionKey) {
-    if (this.startDate) this.startDate = encryptData(this.startDate.toISOString(), encryptionKey);
-    if (this.flowLength !== undefined) this.flowLength = encryptData(this.flowLength.toString(), encryptionKey);
-    if (this.predictedCycleLength !== undefined) this.predictedCycleLength = encryptData(this.predictedCycleLength.toString(), encryptionKey);
-    if (this.previousCycleLengths) this.previousCycleLengths = this.previousCycleLengths.map(length => encryptData(length.toString(), encryptionKey));
-    if (this.actualOvulationDate) this.actualOvulationDate = encryptData(this.actualOvulationDate.toISOString(), encryptionKey);
-    if (this.ovulationDate) this.ovulationDate = encryptData(this.ovulationDate.toISOString(), encryptionKey);
-    if (this.nextCycleStartDate) this.nextCycleStartDate = encryptData(this.nextCycleStartDate.toISOString(), encryptionKey);
-    if (this.irregularCycle !== undefined) this.irregularCycle = encryptData(this.irregularCycle.toString(), encryptionKey);
-    if (this.month) this.month = encryptData(this.month, encryptionKey);
-};
+// Encryption middleware
+cycleSchema.pre('save', function(next) {
+    if (this.isModified('startDate')) {
+        this.startDate = encryptData(this.startDate.toISOString(), this.encryptionKey);
+    }
+    if (this.isModified('flowLength')) {
+        this.flowLength = encryptData(this.flowLength.toString(), this.encryptionKey);
+    }
+    if (this.isModified('predictedCycleLength')) {
+        this.predictedCycleLength = encryptData(this.predictedCycleLength.toString(), this.encryptionKey);
+    }
+    if (this.isModified('previousCycleLengths')) {
+        this.previousCycleLengths = this.previousCycleLengths.map(length => encryptData(length.toString(), this.encryptionKey));
+    }
+    if (this.isModified('actualOvulationDate')) {
+        this.actualOvulationDate = encryptData(this.actualOvulationDate.toISOString(), this.encryptionKey);
+    }
+    if (this.isModified('ovulationDate')) {
+        this.ovulationDate = encryptData(this.ovulationDate.toISOString(), this.encryptionKey);
+    }
+    if (this.isModified('nextCycleStartDate')) {
+        this.nextCycleStartDate = encryptData(this.nextCycleStartDate.toISOString(), this.encryptionKey);
+    }
+    if (this.isModified('irregularCycle')) {
+        this.irregularCycle = encryptData(this.irregularCycle.toString(), this.encryptionKey);
+    }
+    if (this.isModified('month')) {
+        this.month = encryptData(this.month, this.encryptionKey);
+    }
+    next();
+});
 
-cycleSchema.methods.decryptFields = function (encryptionKey) {
-    if (this.startDate) this.startDate = new Date(decryptData(this.startDate, encryptionKey));
-    if (this.flowLength) this.flowLength = parseInt(decryptData(this.flowLength, encryptionKey));
-    if (this.predictedCycleLength) this.predictedCycleLength = parseInt(decryptData(this.predictedCycleLength, encryptionKey));
-    if (this.previousCycleLengths) this.previousCycleLengths = this.previousCycleLengths.map(length => parseInt(decryptData(length, encryptionKey)));
-    if (this.actualOvulationDate) this.actualOvulationDate = new Date(decryptData(this.actualOvulationDate, encryptionKey));
-    if (this.ovulationDate) this.ovulationDate = new Date(decryptData(this.ovulationDate, encryptionKey));
-    if (this.nextCycleStartDate) this.nextCycleStartDate = new Date(decryptData(this.nextCycleStartDate, encryptionKey));
-    if (this.irregularCycle) this.irregularCycle = decryptData(this.irregularCycle, encryptionKey) === 'true';
-    if (this.month) this.month = decryptData(this.month, encryptionKey);
-};
+// Decryption middleware
+cycleSchema.post('init', function(doc) {
+    doc.startDate = new Date(decryptData(doc.startDate, doc.encryptionKey));
+    doc.flowLength = parseInt(decryptData(doc.flowLength, doc.encryptionKey));
+    doc.predictedCycleLength = parseInt(decryptData(doc.predictedCycleLength, doc.encryptionKey));
+    doc.previousCycleLengths = doc.previousCycleLengths.map(length => parseInt(decryptData(length, doc.encryptionKey)));
+    if (doc.actualOvulationDate) {
+        doc.actualOvulationDate = new Date(decryptData(doc.actualOvulationDate, doc.encryptionKey));
+    }
+    if (doc.ovulationDate) {
+        doc.ovulationDate = new Date(decryptData(doc.ovulationDate, doc.encryptionKey));
+    }
+    if (doc.nextCycleStartDate) {
+        doc.nextCycleStartDate = new Date(decryptData(doc.nextCycleStartDate, doc.encryptionKey));
+    }
+    doc.irregularCycle = decryptData(doc.irregularCycle, doc.encryptionKey) === 'true';
+    doc.month = decryptData(doc.month, doc.encryptionKey);
+});
 
 const Cycle = mongoose.model('Cycle', cycleSchema);
 
