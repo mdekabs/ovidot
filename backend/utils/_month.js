@@ -1,19 +1,15 @@
 import { Cycle } from '../models/index.js';
-import { decryptData } from '../utils/index.js';
-import dotenv from "dotenv";
-
-dotenv.config();
-const encryptionKey = process.env.ENCRYPTION_KEY;
 
 export const checkCycleExistsForMonth = async (userId, startDate) => {
     const startDateObj = new Date(startDate);
     const month = `${startDateObj.getFullYear()}-${startDateObj.getMonth() + 1}`;
 
+    // Fetch cycles for the user; decryption is handled by Mongoose's post('init') middleware
     const cycles = await Cycle.find({ userId });
 
+    // Check if any cycle's month matches the given month
     for (const cycle of cycles) {
-        const decryptedMonth = decryptData(cycle.month, encryptionKey);
-        if (decryptedMonth === month) {
+        if (cycle.month === month) {
             return true;
         }
     }
