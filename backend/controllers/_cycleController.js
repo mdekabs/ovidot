@@ -14,7 +14,6 @@ import {
   CONSTANTS
 } from '../utils/index.js';
 
-
 dotenv.config();
 
 const { OVULATION_INTERVAL_DAYS, MILLISECONDS_IN_A_DAY } = CONSTANTS;
@@ -62,8 +61,6 @@ const CycleController = {
                 month: `${startDateObj.getFullYear()}-${startDateObj.getMonth() + 1}`
             });
 
-            newCycle.encryptFields(process.env.ENCRYPTION_KEY);
-
             await newCycle.save();
             responseHandler(res, HttpStatus.CREATED, "success", "Cycle created successfully.", {
                 ovulationDate,
@@ -93,8 +90,6 @@ const CycleController = {
                 return responseHandler(res, HttpStatus.NOT_FOUND, "error", "No cycle data found for user.");
             }
 
-            userCycle.decryptFields(process.env.ENCRYPTION_KEY);
-
             const startDateObj = new Date(userCycle.startDate);
             const actualOvulationDateObj = new Date(actualOvulationDate);
 
@@ -117,8 +112,6 @@ const CycleController = {
             userCycle.previousCycleLengths = previousCycleLengths;
             userCycle.irregularCycle = isIrregular;
             userCycle.month = `${startDateObj.getFullYear()}-${startDateObj.getMonth() + 1}`;
-
-            userCycle.encryptFields(process.env.ENCRYPTION_KEY);
 
             await userCycle.save();
             responseHandler(res, HttpStatus.OK, "success", "Cycle data updated successfully.", {
@@ -171,8 +164,6 @@ const CycleController = {
                 return responseHandler(res, HttpStatus.NOT_FOUND, "error", "Cycle not found");
             }
 
-            cycle.decryptFields(process.env.ENCRYPTION_KEY);
-
             responseHandler(res, HttpStatus.OK, "success", "Cycle retrieved successfully", cycle);
         } catch (error) {
             console.error("Error retrieving cycle:", error);
@@ -191,8 +182,6 @@ const CycleController = {
 
             const cycles = await Cycle.find({ userId });
 
-            cycles.forEach(cycle => cycle.decryptFields(process.env.ENCRYPTION_KEY));
-
             responseHandler(res, HttpStatus.OK, "success", "Cycles retrieved successfully", cycles);
         } catch (error) {
             console.error("Error retrieving cycles:", error);
@@ -210,14 +199,9 @@ const CycleController = {
                 return responseHandler(res, HttpStatus.NOT_FOUND, "error", "User not found");
             }
 
-            const cycles = await Cycle.find({ userId });
+            const cycles = await Cycle.find({ userId, month });
 
-            const filteredCycles = cycles.filter(cycle => {
-                cycle.decryptFields(process.env.ENCRYPTION_KEY);
-                return cycle.month === month;
-            });
-
-            responseHandler(res, HttpStatus.OK, "success", "Cycles retrieved successfully", filteredCycles);
+            responseHandler(res, HttpStatus.OK, "success", "Cycles retrieved successfully", cycles);
         } catch (error) {
             console.error("Error retrieving cycles by month:", error);
             responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, "error", "Error retrieving cycles by month", { error });
