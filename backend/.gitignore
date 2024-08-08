@@ -4,4 +4,3 @@ jsdoc.config.json
 .prettierignore
 blacklist.json
 package-lock.json
-LICENSE
