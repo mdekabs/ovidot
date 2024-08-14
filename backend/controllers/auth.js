@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import crypto from "crypto";
-import { responseHandler, emailQueue, generatePasswordResetEmail, generateWelcomeEmail } from "../utils/index.js";
+import { responseHandler, emailQueue, generatePasswordResetEmail } from "../utils/index.js";
 import { updateBlacklist } from "../middlewares/_tokenBlacklist.js";
 
 dotenv.config();
@@ -29,15 +29,6 @@ const AuthController = {
                 password: hashedPassword
             });
             const user = await newUser.save();
-
-            // Send welcome email to the user
-            const welcomeMessage = generateWelcomeEmail(user.username);
-            await emailQueue.add({
-                to: user.email,
-                subject: welcomeMessage.subject,
-                text: welcomeMessage.message
-            });
-
             responseHandler(res, HttpStatus.CREATED, "success", "User has been created successfully", { user });
         } catch (err) {
             responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, "error", "Something went wrong, please try again", { error: err.message });
