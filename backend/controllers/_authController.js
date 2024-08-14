@@ -19,7 +19,7 @@ const AuthController = {
         try {
             const existingUser = await User.findOne({ $or: [{ username: req.body.username }, { email: req.body.email }] });
             if (existingUser) {
-                return responseHandler(res, HttpStatus.CONFLICT, "error", "Username or email already exists. login or create a new account.");
+                return responseHandler(res, HttpStatus.CONFLICT, "error", "Username or email already exists. Login or create a new account.");
             }
 
             const hashedPassword = await bcrypt.hash(req.body.password, PASSWORD_SALT_ROUNDS);
@@ -30,15 +30,17 @@ const AuthController = {
             });
             const user = await newUser.save();
 
-            // Send welcome email to the user
+            // Send response to the user immediately
+            responseHandler(res, HttpStatus.CREATED, "success", "User has been created successfully", { user });
+
+            // Send welcome email asynchronously
             const welcomeMessage = generateWelcomeEmail(user.username);
-            await emailQueue.add({
+            emailQueue.add({
                 to: user.email,
                 subject: welcomeMessage.subject,
                 text: welcomeMessage.message
             });
 
-            responseHandler(res, HttpStatus.CREATED, "success", "User has been created successfully", { user });
         } catch (err) {
             responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, "error", "Something went wrong, please try again", { error: err.message });
         }
