@@ -44,8 +44,11 @@ app.use(morgan('combined', { stream: logStream }));
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 const options = {
   explorer: true,
-  customCss: theme.getBuffer(SwaggerThemeNameEnum.DARK)
+  customCss: theme.getBuffer(SwaggerThemeNameEnum.DARK),
+  customsiteTitle: "Ovidot docs",
+  customJs: "./swaggerImage.js"
 };
+app.use("/swagger-custom.js", express.static("swaggerCustom.js"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs, options));
 
 // Route definitions
