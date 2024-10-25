@@ -17,23 +17,18 @@ const JWT_EXPIRATION = "1d";
 const AuthController = {
     create_user: async (req, res, next) => {
         try {
-            const existingUser = await User.findOne({ $or: [{ username: req.body.username }, { email: req.body.email }] });
+            const { username, email, password } = req.body;
+            const existingUser = await User.findOne({ $or: [{ username }, { email }] });
             if (existingUser) {
                 return responseHandler(res, HttpStatus.CONFLICT, "error", "Username or email already exists. Login or create a new account.");
             }
 
-            const hashedPassword = await bcrypt.hash(req.body.password, PASSWORD_SALT_ROUNDS);
-            const newUser = new User({
-                username: req.body.username,
-                email: req.body.email,
-                password: hashedPassword
-            });
+            const hashedPassword = await bcrypt.hash(password, PASSWORD_SALT_ROUNDS);
+            const newUser = new User({ username, email, password: hashedPassword });
             const user = await newUser.save();
 
-            // Send response to the user immediately
             responseHandler(res, HttpStatus.CREATED, "success", "User has been created successfully", { user });
 
-            // Send welcome email asynchronously
             const welcomeMessage = generateWelcomeEmail(user.username);
             emailQueue.add({
                 to: user.email,
@@ -48,13 +43,12 @@ const AuthController = {
 
     login_user: async (req, res) => {
         try {
-            const user = await User.findOne({ username: req.body.username });
-            if (!user) {
-                return responseHandler(res, HttpStatus.UNAUTHORIZED, "error", "Invalid username");
-            }
-            const passwordIsValid = await bcrypt.compare(req.body.password, user.password);
-            if (!passwordIsValid) {
-                return responseHandler(res, HttpStatus.UNAUTHORIZED, "error", "Invalid password");
+            const { username, password } = req.body;
+            const user = await User.findOne({ username });
+            const passwordIsValid = user && await bcrypt.compare(password, user.password);
+
+            if (!user || !passwordIsValid) {
+                return responseHandler(res, HttpStatus.UNAUTHORIZED, "error", "Invalid username or password");
             }
 
             const accessToken = jwt.sign(
@@ -63,7 +57,7 @@ const AuthController = {
                 { expiresIn: JWT_EXPIRATION }
             );
 
-            const { password, ...data } = user._doc;
+            const { password: _, ...data } = user._doc;
             responseHandler(res, HttpStatus.OK, "success", "Successfully logged in", { ...data, accessToken });
         } catch (err) {
             responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, "error", "Something went wrong, please try again", { error: err.message });
@@ -72,16 +66,12 @@ const AuthController = {
 
     logout_user: async (req, res) => {
         try {
-            const authHeader = req.headers.authorization;
-            const token = authHeader && authHeader.split(' ')[1];
-
+            const token = req.headers.authorization?.split(' ')[1];
             if (!token) {
                 return responseHandler(res, HttpStatus.UNAUTHORIZED, "error", "No token provided");
             }
 
-            // Add the token to the blacklist
             await updateBlacklist(token);
-
             responseHandler(res, HttpStatus.OK, "success", "Successfully logged out");
         } catch (err) {
             responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, "error", "Something went wrong, please try again", { error: err.message });
@@ -90,7 +80,8 @@ const AuthController = {
 
     forgot_password: async (req, res) => {
         try {
-            const user = await User.findOne({ email: req.body.email });
+            const { email } = req.body;
+            const user = await User.findOne({ email });
             if (!user) {
                 return responseHandler(res, HttpStatus.NOT_FOUND, "error", "User not found");
             }
@@ -101,8 +92,6 @@ const AuthController = {
             await user.save();
 
             const message = generatePasswordResetEmail(req.headers.host, token);
-
-            // Adding email job to the queue
             await emailQueue.add({
                 to: user.email,
                 subject: message.subject,
@@ -111,20 +100,16 @@ const AuthController = {
 
             responseHandler(res, HttpStatus.OK, "success", "Password reset email sent successfully");
         } catch (err) {
-            if (user) {
-                user.resetPasswordToken = null;
-                user.resetPasswordExpires = null;
-                await user.save();
-            }
-
             responseHandler(res, HttpStatus.INTERNAL_SERVER_ERROR, "error", "Failed to send email, please try again", { error: err.message });
         }
     },
 
     reset_password: async (req, res) => {
         try {
+            const { token } = req.params;
+            const { password } = req.body;
             const user = await User.findOne({
-                resetPasswordToken: req.params.token,
+                resetPasswordToken: token,
                 resetPasswordExpires: { $gt: Date.now() }
             });
 
@@ -132,7 +117,7 @@ const AuthController = {
                 return responseHandler(res, HttpStatus.BAD_REQUEST, "error", "Password reset token is invalid or has expired");
             }
 
-            user.password = await bcrypt.hash(req.body.password, PASSWORD_SALT_ROUNDS);
+            user.password = await bcrypt.hash(password, PASSWORD_SALT_ROUNDS);
             user.resetPasswordToken = null;
             user.resetPasswordExpires = null;
             await user.save();
