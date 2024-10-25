@@ -7,6 +7,7 @@ import calculateEDD from "./_calculateEDD.js";
 import calculateFertileWindow from "./_calculateFertileWindow.js";
 import { isDateInCurrentMonth } from "./_date.js";
 import isUserPregnant from "./_isUserPregnant.js";
+import { creatToken } from "./_jwtToken.js";
 import { encryptData, decryptData } from "./_security.js";  // Import from security.js
 import { calculateStandardDeviation, adjustPredictionBasedOnFeedback, calculateCycleDates, calculateDynamicThreshold, checkIrregularity, adjustPredictionBasedOnHistory, CONSTANTS } from "./_mathstats.js";
 
@@ -15,6 +16,7 @@ import { calculateStandardDeviation, adjustPredictionBasedOnFeedback, calculateC
 
 export {
   CONSTANTS,
+  creatToken,
   responseHandler,
   generateWelcomeEmail,
   emailQueue,
